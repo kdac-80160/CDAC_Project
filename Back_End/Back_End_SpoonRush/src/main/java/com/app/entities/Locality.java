@@ -1,0 +1,23 @@
+package com.app.entities;
+
+import javax.persistence.*;
+
+import lombok.*;
+
+@Entity
+@Table(name = "localities")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@AttributeOverride(name = "id", column = @Column(name = "locality_id"))
+public class Locality extends BaseEntity {
+	@Column(length = 30)
+	private String localityName;
+	@Column(length = 6)
+	private int pincode;
+	@Column(length = 30)
+	private String city;
+	@Column(length = 30)
+	private String state;
+}
