@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
+import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
@@ -24,12 +25,11 @@ import lombok.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class DeliveryLogs implements Serializable {
+public class DeliveryLogs extends BaseEntity {
 	
 	@OneToOne
 	@JoinColumn(name = "order_id")
 	@MapsId
-	@Id
 	private Order order;
 	
 	@ManyToOne

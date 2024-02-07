@@ -25,11 +25,10 @@ import lombok.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Payment implements Serializable {
+public class Payment extends BaseEntity {
 	
 	@OneToOne
 	@MapsId
-	@Id
 	@JoinColumn(name = "order_id")
 	private Order order;
 	
