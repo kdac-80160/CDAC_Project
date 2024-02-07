@@ -1,0 +1,5 @@
+package com.app.enums;
+
+public enum OrderStatus {
+	PENDING,ACCEPTED,REJECTED,PREPARING,READY_FOR_DELIVERY,ON_THE_WAY,DELIVERED,CANCELLED
+}

@@ -2,6 +2,7 @@ package com.app.dao;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.junit.jupiter.api.AfterAll;
@@ -15,7 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.annotation.Rollback;
 
 import com.app.entities.UserEntity;
-import com.app.entities.UserRole;
+import com.app.enums.UserRole;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = Replace.NONE)
@@ -31,9 +32,9 @@ class UserEntityDaoTest {
 	@Test
 	void testAddUsers() {
 		List<UserEntity> list = List.of(
-				new UserEntity("a1", "b1", "a1@gmail.com", enc.encode("12345"),"8349703527", UserRole.ROLE_MANAGER),
-				new UserEntity("a2", "b2", "a2@gmail.com", enc.encode("2345"),"6265168982", UserRole.ROLE_CUSTOMER),
-				new UserEntity("a3", "b3", "a3@gmail.com", enc.encode("1345"),"9826332239", UserRole.ROLE_DELIVERY));
+				new UserEntity("a1", "b1", "a1@gmail.com", enc.encode("12345"),"8349703527", UserRole.ROLE_MANAGER,LocalDateTime.now()),
+				new UserEntity("a2", "b2", "a2@gmail.com", enc.encode("2345"),"6265168982", UserRole.ROLE_CUSTOMER,LocalDateTime.now()),
+				new UserEntity("a3", "b3", "a3@gmail.com", enc.encode("1345"),"9826332239", UserRole.ROLE_DELIVERY,LocalDateTime.now()));
 		List<UserEntity> list2 = userRepo.saveAll(list);
 		assertEquals(3, list2.size());
 

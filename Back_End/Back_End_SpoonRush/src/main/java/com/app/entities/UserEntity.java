@@ -1,5 +1,6 @@
 package com.app.entities;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,6 +14,8 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.app.enums.UserRole;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -34,15 +37,19 @@ public class UserEntity extends BaseEntity {
 	private String firstName;
 	@Column(length = 20)
 	private String lastName;
-	@Column(length = 30, unique = true)
+	@Column(length = 30, unique = true, nullable = false)
 	private String email;
 	@Column(length = 300, nullable = false)
 	private String password;
-	@Column(length = 13)
+	@Column(length = 13, unique = true)
 	private String mobileNo;
 	@Enumerated(EnumType.STRING)
 	@Column(length = 30)
 	private UserRole role;
+	@Column(columnDefinition = "TIMESTAMP")
+	private LocalDateTime registrationTime;
+	
+	
 	@OneToMany(mappedBy = "userInAddress", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Address> addressList = new ArrayList<Address>();
 	@OneToMany(mappedBy = "userInOrder", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -51,8 +58,8 @@ public class UserEntity extends BaseEntity {
 	private List<CartItem> cartList = new ArrayList<CartItem>();
 	
 	
-	public UserEntity(String firstName, String lastName, String email, String password, String mobileNo,
-			UserRole role) {
+	public UserEntity(String firstName, String lastName, String email, String password, String mobileNo, UserRole role,
+			LocalDateTime registrationTime) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -60,7 +67,11 @@ public class UserEntity extends BaseEntity {
 		this.password = password;
 		this.mobileNo = mobileNo;
 		this.role = role;
+		this.registrationTime = registrationTime;
 	}
+	
+	
+	
 	
 	
 }

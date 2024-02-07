@@ -11,6 +11,9 @@ import javax.persistence.Enumerated;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.app.enums.Category;
+import com.app.enums.SubCategory;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,12 +26,12 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @AttributeOverride(name = "id", column = @Column(name = "item_id"))
-public class FoodItem {
+public class FoodItem extends BaseEntity {
 	
 	@Column(length = 30)
 	private String itemName;
 	
-	@Column(length = 100)
+	@Column(length = 200)
 	private String imagePath;
 	
 	@Column(length = 200)

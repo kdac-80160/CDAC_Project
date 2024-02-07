@@ -23,11 +23,11 @@ public class OrderedItem{
 	private OrderAndFooditemCPK cpk;
 	
 	@ManyToOne
-	@JoinColumn(name = "order_id")
+	@JoinColumn(name = "order_id", insertable = false, updatable = false)
 	private Order order;
 	
 	@ManyToOne
-	@JoinColumn(name = "item_id")
+	@JoinColumn(name = "item_id", insertable = false, updatable = false)
 	private FoodItem item;
 	
 	@Column(name = "qty")

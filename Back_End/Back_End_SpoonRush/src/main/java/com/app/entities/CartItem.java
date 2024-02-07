@@ -1,15 +1,15 @@
 package com.app.entities;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
-import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+
+import com.app.composite_pk.UserAndFooditemCPK;
 
 import lombok.*;
 
@@ -19,15 +19,18 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CartItem extends BaseEntity {
+public class CartItem{
+	
+	@EmbeddedId
+	private UserAndFooditemCPK cpk;
 	@ManyToOne
-	@JoinColumn(name = "user_id")
+	@JoinColumn(name = "user_id", insertable = false, updatable = false)
 	private UserEntity userInCart;
 	@ManyToOne
-	@JoinColumn(name = "item_id")
+	@JoinColumn(name = "item_id", insertable = false, updatable = false)
 	private FoodItem item;
 	
 	private int quantity;
-	@Temporal(TemporalType.TIMESTAMP)
-	private LocalDate addTime;
+	@Column(columnDefinition = "TIMESTAMP")
+	private LocalDateTime addTime;
 }

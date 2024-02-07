@@ -1,4 +1,4 @@
-package com.app.entities;
+package com.app.enums;
 
 public enum Category {
 	VEG, NON_VEG
