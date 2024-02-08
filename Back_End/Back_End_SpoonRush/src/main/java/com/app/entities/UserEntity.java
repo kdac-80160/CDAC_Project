@@ -70,8 +70,9 @@ public class UserEntity extends BaseEntity {
 		this.registrationTime = registrationTime;
 	}
 	
-	
-	
-	
-	
+	public void addAddress(Address address)
+	{
+		this.addressList.add(address);
+		address.setUserInAddress(this);
+	}
 }

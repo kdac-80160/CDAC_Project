@@ -33,4 +33,16 @@ public class CartItem{
 	private int quantity;
 	@Column(columnDefinition = "TIMESTAMP")
 	private LocalDateTime addTime;
+	public CartItem(UserAndFooditemCPK cpk, int quantity, LocalDateTime addTime) {
+		super();
+		this.cpk = cpk;
+		this.quantity = quantity;
+		this.addTime = addTime;
+	}
+	
+	@Override
+	public String toString() {
+		return "CartItem [item=" + item + ", quantity=" + quantity + "]";
+	}
+	
 }

@@ -9,4 +9,5 @@ import com.app.entities.UserEntity;
 public interface UserEntityDao extends JpaRepository<UserEntity,Long>{
 //derived finder 
 	Optional<UserEntity> findByEmail(String email);
+	Optional<UserEntity> findByFirstName(String firstName);
 }

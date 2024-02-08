@@ -18,6 +18,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Table(name = "food_items")
@@ -26,6 +27,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @AttributeOverride(name = "id", column = @Column(name = "item_id"))
+@ToString(exclude = {"cartList"})
 public class FoodItem extends BaseEntity {
 	
 	@Column(length = 30)
@@ -47,8 +49,20 @@ public class FoodItem extends BaseEntity {
 	@Column(length = 20)
 	private SubCategory subCategory;
 	
+	public FoodItem(String itemName, String imagePath, String discription, double price, Category category,
+			SubCategory subCategory, double avgRating) {
+		super();
+		this.itemName = itemName;
+		this.imagePath = imagePath;
+		this.discription = discription;
+		this.price = price;
+		this.category = category;
+		this.subCategory = subCategory;
+		this.avgRating = avgRating;
+	}
+
 	@OneToMany(mappedBy = "item")
 	private List<CartItem> cartList = new ArrayList<CartItem>();
 	
-	private int avgRating;
+	private double avgRating;
 }

@@ -39,4 +39,15 @@ public class Address extends BaseEntity {
 	@Column(length = 50)
 	private String moreDetails;
 
+	public Address(String houseFlatNo, String streetName, TypeOfAddress type, String landmark, String moreDetails) {
+		super();
+		this.houseFlatNo = houseFlatNo;
+		this.streetName = streetName;
+		this.type = type;
+		this.landmark = landmark;
+		this.moreDetails = moreDetails;
+	}
+	
+	
+
 }
