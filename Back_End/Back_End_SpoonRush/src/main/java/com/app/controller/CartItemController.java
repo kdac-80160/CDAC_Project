@@ -27,4 +27,10 @@ public class CartItemController {
 	{
 		return ResponseEntity.status(HttpStatus.OK).body(cartService.removeItem(itemId));
 	}
+	
+	@GetMapping("/all")
+	public ResponseEntity<?> getUserCartItems()
+	{
+		return ResponseEntity.status(HttpStatus.OK).body(cartService.getUserCartItems());
+	}
 }

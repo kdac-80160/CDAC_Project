@@ -8,6 +8,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.app.composite_pk.OrderAndFooditemCPK;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.*;
 
@@ -19,9 +20,11 @@ import lombok.*;
 @AllArgsConstructor
 public class OrderedItem{
 	
+	@JsonIgnore
 	@EmbeddedId
 	private OrderAndFooditemCPK cpk;
 	
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "order_id", insertable = false, updatable = false)
 	private Order order;
@@ -32,4 +35,11 @@ public class OrderedItem{
 	
 	@Column(name = "qty")
 	private int quantity;
+
+	public OrderedItem(OrderAndFooditemCPK cpk, int quantity) {
+		super();
+		this.cpk = cpk;
+		this.quantity = quantity;
+	}
+	
 }

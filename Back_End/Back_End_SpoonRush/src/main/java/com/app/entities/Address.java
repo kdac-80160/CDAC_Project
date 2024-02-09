@@ -25,6 +25,9 @@ public class Address extends BaseEntity {
 	@Column(length = 30)
 	private String streetName;
 	
+	@Column(length = 13, unique = true)
+	private String mobileNo;
+	
 	@Enumerated(EnumType.STRING)
 	@Column(length = 20)
 	private TypeOfAddress type;

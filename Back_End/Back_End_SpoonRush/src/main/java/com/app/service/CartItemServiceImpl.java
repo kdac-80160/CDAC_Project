@@ -1,16 +1,18 @@
 package com.app.service;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.app.composite_pk.UserAndFooditemCPK;
 import com.app.dao.CartDao;
 import com.app.dto.ApiResponse;
+import com.app.dto.CartItemDTO;
 import com.app.entities.CartItem;
 import com.app.security.CustomUserDetails;
 import com.app.security.FindAuthenticationDetails;
@@ -20,6 +22,9 @@ import com.app.security.FindAuthenticationDetails;
 public class CartItemServiceImpl implements CartItemService {
 	@Autowired
 	private CartDao cartDao;
+	
+	@Autowired
+	private ModelMapper mapper;
 	
 	@Autowired
 	private FindAuthenticationDetails userDetails;
@@ -64,6 +69,14 @@ public class CartItemServiceImpl implements CartItemService {
 			// If row does not exists then give back response as no such item in the cart
 			return new ApiResponse("No such item is there.");
 		}
+	}
+
+	@Override
+	public List<CartItemDTO> getUserCartItems() {
+		Long userId = userDetails.getUserId();
+		return cartDao.findAllByUserInCartId(userId).stream()
+				.map(c -> mapper.map(c, CartItemDTO.class))
+				.collect(Collectors.toList());
 	}
 
 }

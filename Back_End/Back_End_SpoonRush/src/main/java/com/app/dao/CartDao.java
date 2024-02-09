@@ -11,6 +11,7 @@ import com.app.entities.CartItem;
 
 public interface CartDao extends JpaRepository<CartItem, UserAndFooditemCPK> {
 	List<CartItem> findAllByUserInCartId(Long userId);
+	Long deleteAllByUserInCartId(Long userId);
 //	@Query("update CartItem c SET c.quantity = c.quantity + 1 where p.userInCart.id = :userId AND p.item.id = :itemId")
 //	Long increaseQuantity(@Param("userId")Long userId, @Param("itemId")Long itemId);
 }

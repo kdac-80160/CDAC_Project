@@ -13,6 +13,7 @@ import javax.persistence.Table;
 
 import com.app.enums.Category;
 import com.app.enums.SubCategory;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -60,7 +61,8 @@ public class FoodItem extends BaseEntity {
 		this.subCategory = subCategory;
 		this.avgRating = avgRating;
 	}
-
+	
+	@JsonIgnore
 	@OneToMany(mappedBy = "item")
 	private List<CartItem> cartList = new ArrayList<CartItem>();
 	

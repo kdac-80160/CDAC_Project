@@ -39,7 +39,7 @@ public class AddressServiceImpl implements AddressService {
 	@Override
 	public List<AddressDTO> getAddressesForUser() {
 		Long userId = userDetails.getUserId();
-		return addressDao.findAllByUserInAddressId(2L)
+		return addressDao.findAllByUserInAddressId(userId)
 				.stream()
 				.map(a -> mapper.map(a, AddressDTO.class))
 				.collect(Collectors.toList());
@@ -47,7 +47,7 @@ public class AddressServiceImpl implements AddressService {
 	@Override
 	public ApiResponse addAddress(AddressDTO address) {
 		Long userId = userDetails.getUserId();
-		UserEntity user = userDao.findById(2L).orElse(null);
+		UserEntity user = userDao.findById(userId).orElse(null);
 		Locality locality = localityDao.findById(address.getLocalityId()).orElse(null);
 		Address addressEntity = mapper.map(address, Address.class);
 		addressEntity.setLocality(locality);
