@@ -57,7 +57,7 @@ public class UserSignInSignUpController {
 		System.out.println(verifiedAuth.getClass());// Custom user details
 		// => auth success
 		return ResponseEntity
-				.ok(new SigninResponse(utils.generateJwtToken(verifiedAuth), "Successful Authentication!!!"));
+				.ok(new SigninResponse(utils.generateJwtToken(verifiedAuth), "Successful Authentication!"));
 
 	}
 

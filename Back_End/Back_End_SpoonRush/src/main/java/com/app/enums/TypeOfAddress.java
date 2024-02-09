@@ -1,5 +1,5 @@
 package com.app.enums;
 
 public enum TypeOfAddress {
-	HOME,WORK,OTHER
+	HOME,WORK,OTHER,DEFAULT
 }

@@ -54,6 +54,11 @@ public class Order extends BaseEntity implements Serializable {
 	@Enumerated(EnumType.STRING)
 	@Column(length = 20)
 	private OrderStatus orderStatus;
+	// This is for restaurant.
+	
+	@ManyToOne
+	@JoinColumn(name = "del_partner_id")
+	private UserEntity delInOrder;
 	
 	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<OrderedItem> orderedItemList = new ArrayList<OrderedItem>();

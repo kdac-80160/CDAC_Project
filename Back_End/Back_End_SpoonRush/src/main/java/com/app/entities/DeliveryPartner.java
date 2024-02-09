@@ -27,5 +27,7 @@ public class DeliveryPartner extends UserEntity {
 		this.picturePath = picturePath;
 	}
 	
+	private double rating;
+	
 	
 }
