@@ -26,23 +26,23 @@ class CartItemDaoTest {
 	private CartDao dao;
 	
 	
-//	@Test
-//	void test() {
-//		
-//		List<CartItem> list1 = List.of(new CartItem(new UserAndFooditemCPK(1L, 1L), 3, LocalDateTime.now()),new CartItem(new UserAndFooditemCPK(1L, 2L), 4, LocalDateTime.now()));
-//		
-//		List<CartItem> list2 =  dao.saveAll(list1);
-//		
-//		assertEquals(list1.size(), list2.size());
-//	}
-	
 	@Test
-	void findByUserIdTest()
-	{
-		List<CartItem> list = dao.findAllByUserInCartId(1L);
-		list.forEach(e->System.out.println(e));
+	void test() {
 		
-		assertTrue(list.size()>0);
+		List<CartItem> list1 = List.of(new CartItem(new UserAndFooditemCPK(1L, 1L), 3, LocalDateTime.now()),new CartItem(new UserAndFooditemCPK(1L, 2L), 4, LocalDateTime.now()));
+		
+		List<CartItem> list2 =  dao.saveAll(list1);
+		
+		assertEquals(list1.size(), list2.size());
 	}
+	
+//	@Test
+//	void findByUserIdTest()
+//	{
+//		List<CartItem> list = dao.findAllByUserInCartId(1L);
+//		list.forEach(e->System.out.println(e));
+//		
+//		assertTrue(list.size()>0);
+//	}
 
 }

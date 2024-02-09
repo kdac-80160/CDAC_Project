@@ -54,6 +54,7 @@ public class JwtUtils {
 																					// (expiration) value.
 				// setting a custom claim
 				.claim("authorities", getAuthoritiesInString(userPrincipal.getAuthorities()))
+				.claim("userId", userPrincipal.getUserId())
 				.signWith(key, SignatureAlgorithm.HS512) // Signs the constructed JWT using the specified
 															// algorithm with the specified key, producing a
 															// JWS(Json web signature=signed JWT)
@@ -92,6 +93,11 @@ public class JwtUtils {
 		List<GrantedAuthority> authorities = AuthorityUtils.commaSeparatedStringToAuthorityList(authString);
 		authorities.forEach(System.out::println);
 		return authorities;
+	}
+	
+	public Long getUserIdFromClaims(Claims claims) {
+		Integer i = (Integer)claims.get("userId");
+		return Integer.toUnsignedLong(i);
 	}
 
 }

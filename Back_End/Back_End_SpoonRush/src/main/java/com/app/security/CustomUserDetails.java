@@ -15,14 +15,18 @@ public class CustomUserDetails implements UserDetails {
 	public CustomUserDetails(UserEntity user) {
 		this.user = user;
 	}
-
+	
+	public Long getUserId()
+	{
+		return user.getId();
+	}
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		// class : SimpleGrantedAuthority --> GrantedAuthority
 		return List.of(new 
 				SimpleGrantedAuthority(user.getRole().toString()));
 	}
-
+	
 	@Override
 	public String getPassword() {
 		// TODO Auto-generated method stub
