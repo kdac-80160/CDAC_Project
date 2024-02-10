@@ -13,6 +13,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
 
 @EnableWebSecurity//to enable spring sec frmwork support
 @Configuration //to tell SC , this is config class containing @Bean methods
@@ -34,14 +35,22 @@ public class SecurityConfig {
 	public SecurityFilterChain authorizeRequests(HttpSecurity http) throws Exception
 	{
 		//URL based authorization rules
-		http.cors()
+		http.cors().
+		configurationSource(request ->
+		{
+			CorsConfiguration corsConfig = new CorsConfiguration();
+		    corsConfig.addAllowedOrigin("http://localhost:3000");
+		    corsConfig.addAllowedMethod("*");
+		    corsConfig.addAllowedHeader("*");
+		    return corsConfig;
+		})
 		.and().
 		//disable CSRF token generation n verification
 		csrf()	.disable()
 		.exceptionHandling().authenticationEntryPoint(authEntry).
 		and().
 		authorizeRequests()
-		.antMatchers("/products/view","/users/signup","/users/signin","/**",
+		.antMatchers("/products/view","/users/signup","/users/signin",
 				"/v*/api-doc*/**","/swagger-ui/**").permitAll()
 		// only required for JS clnts (react / angular) : for the pre flight requests
 		.antMatchers(HttpMethod.OPTIONS).permitAll()

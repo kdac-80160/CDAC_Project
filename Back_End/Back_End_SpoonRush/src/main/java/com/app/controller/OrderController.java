@@ -28,6 +28,6 @@ public class OrderController {
 	@GetMapping("/customer/{orderId}")
 	public ResponseEntity<?> getOrderDetails(@PathVariable Long orderId)
 	{
-		return null;
+		return ResponseEntity.status(HttpStatus.OK).body(orderService.getOrderDetails(orderId));
 	}
 }
