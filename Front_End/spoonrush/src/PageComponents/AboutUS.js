@@ -2,6 +2,7 @@ import React from 'react'
 
 const AboutUS = () => {
   return (
+<<<<<<< HEAD
    
        <div className="text-color ms-5 me-5 mr-5 mt-3">
       <h4 className="mb-3">About Us</h4>
@@ -43,6 +44,11 @@ const AboutUS = () => {
       </b>
     </div>
   
+=======
+    <div>
+      <h2>Add About Section</h2>
+    </div>
+>>>>>>> afnan
   )
 }
 
