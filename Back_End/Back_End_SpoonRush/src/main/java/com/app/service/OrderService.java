@@ -11,5 +11,7 @@ public interface OrderService {
 	ApiResponse createOrder(OrderDTO order);
 	CustomerOrderDetailsDTO getOrderDetails(Long orderId);
 	List<CustomerOrderDetailsDTO> getPendingOrders();
-	ApiResponse changeOrderStatus(ChangeOrderStatusDTO orderStatus);
+	ChangeOrderStatusDTO changeOrderStatusForRestaurant(ChangeOrderStatusDTO orderStatus);
+	ChangeOrderStatusDTO changeOrderStatusForCustomer(ChangeOrderStatusDTO orderStatus);
+	ChangeOrderStatusDTO changeOrderStatusForDelivery(ChangeOrderStatusDTO orderStatus);
 }
