@@ -26,6 +26,12 @@ public class OrderController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(orderService.createOrder(order));
 	}
 	
+	@PostMapping("/customer/changestatus")
+	public ResponseEntity<?> changeOrderStatusForCustomer(@RequestBody ChangeOrderStatusDTO orderStatus)
+	{
+		return ResponseEntity.status(HttpStatus.OK).body(orderService.changeOrderStatusForCustomer(orderStatus));
+	}
+	
 	@GetMapping("/customer/details/{orderId}")
 	public ResponseEntity<?> getOrderDetails(@PathVariable Long orderId)
 	{
@@ -39,10 +45,16 @@ public class OrderController {
 		return ResponseEntity.status(HttpStatus.OK).body(orderService.getPendingOrders());
 	}
 	
-	@PostMapping("/changestatus")
-	public ResponseEntity<?> changeOrderStatus(@RequestBody ChangeOrderStatusDTO orderStatus)
+	@PostMapping("/restaurant/changestatus")
+	public ResponseEntity<?> changeOrderStatusForRestaurant(@RequestBody ChangeOrderStatusDTO orderStatus)
 	{
-		return ResponseEntity.status(HttpStatus.OK).body(orderService.changeOrderStatus(orderStatus));
+		return ResponseEntity.status(HttpStatus.OK).body(orderService.changeOrderStatusForRestaurant(orderStatus));
+	}
+	
+	@PostMapping("/delivery/changestatus")
+	public ResponseEntity<?> changeOrderStatusForDelivery(@RequestBody ChangeOrderStatusDTO orderStatus)
+	{
+		return ResponseEntity.status(HttpStatus.OK).body(orderService.changeOrderStatusForDelivery(orderStatus));
 	}
  	
 }

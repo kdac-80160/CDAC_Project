@@ -34,7 +34,7 @@ public class DeliveryLogs extends BaseEntity {
 	
 	@ManyToOne
 	@JoinColumn(name = "del_ptnr_id")
-	private DeliveryPartner delPartner;
+	private UserEntity delPartner;
 	
 	
 	@Enumerated(EnumType.STRING)
