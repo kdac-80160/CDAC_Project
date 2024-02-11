@@ -7,8 +7,8 @@ function Header() {
 
   return (
      <div>
-        <nav class="navbar navbar-expand-lg custom-bg text-color">
-           <div class="container-fluid text-color">
+        <nav className="navbar navbar-expand-lg custom-bg text-color">
+           <div className="container-fluid text-color">
            <img
             src={logo}
             height="60"
@@ -32,7 +32,7 @@ function Header() {
           >
             <span class="navbar-toggler-icon"></span>
           </button>
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
               <li class="nav-item dropdown">
                 <a

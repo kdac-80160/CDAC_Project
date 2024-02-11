@@ -5,14 +5,13 @@ import AdminHeader from './AdminHeader';
 import UserHeader from './UserHeader';
 
 const RoleNav = () => {
-    const user = JSON.parse(sessionStorage.getItem("active-customer"));
-  const admin = JSON.parse(sessionStorage.getItem("active-admin"));
-  const deliveryPerson = JSON.parse(sessionStorage.getItem("active-delivery"));
-  if (user != null) {
+  const role = sessionStorage.getItem("role");
+   console.log(role);
+  if (role==="ROLE_CUSTOMER") {
     return <UserHeader />;
-  } else if (admin != null) {
+  } else if (role==="ROLE_MANAGER") {
     return <AdminHeader />;
-  } else if (deliveryPerson != null) {
+  } else if (role==="ROLE_DELIVERY") {
     return <DeliveryHeader/>;
   } else {
     return <NormalHeader/>;
