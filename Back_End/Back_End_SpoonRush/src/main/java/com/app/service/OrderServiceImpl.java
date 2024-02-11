@@ -21,6 +21,7 @@ import com.app.dao.UserEntityDao;
 import com.app.dto.ApiResponse;
 import com.app.dto.ChangeOrderStatusDTO;
 import com.app.dto.CustomerOrderDetailsDTO;
+import com.app.dto.DeliveryOrderDetailsDTO;
 import com.app.dto.OrderDTO;
 import com.app.entities.DeliveryLogs;
 import com.app.entities.Order;
@@ -180,6 +181,24 @@ public class OrderServiceImpl implements OrderService {
 			return new ChangeOrderStatusDTO(orderStatus.getId(), orderStatus.getOrderStatus(), "Success");
 		else
 			return new ChangeOrderStatusDTO(orderStatus.getId(), null, "Failure");
+	}
+
+	@Override
+	public List<DeliveryOrderDetailsDTO> getNewOrdersForDelivery() {
+		List<OrderStatus> listStatuses = List.of(OrderStatus.ACCEPTED,OrderStatus.PREPARING,OrderStatus.READY_FOR_DELIVERY);
+		return null;
+	}
+
+	@Override
+	public List<DeliveryOrderDetailsDTO> getOngoingOrdersForDelivery() {
+		
+		return null;
+	}
+
+	@Override
+	public List<DeliveryOrderDetailsDTO> getDeliveredOrders() {
+		
+		return null;
 	}
 
 }

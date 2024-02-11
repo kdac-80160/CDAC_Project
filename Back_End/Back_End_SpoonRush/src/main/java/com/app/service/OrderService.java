@@ -5,6 +5,7 @@ import java.util.List;
 import com.app.dto.ApiResponse;
 import com.app.dto.ChangeOrderStatusDTO;
 import com.app.dto.CustomerOrderDetailsDTO;
+import com.app.dto.DeliveryOrderDetailsDTO;
 import com.app.dto.OrderDTO;
 
 public interface OrderService {
@@ -14,4 +15,7 @@ public interface OrderService {
 	ChangeOrderStatusDTO changeOrderStatusForRestaurant(ChangeOrderStatusDTO orderStatus);
 	ChangeOrderStatusDTO changeOrderStatusForCustomer(ChangeOrderStatusDTO orderStatus);
 	ChangeOrderStatusDTO changeOrderStatusForDelivery(ChangeOrderStatusDTO orderStatus);
+	List<DeliveryOrderDetailsDTO> getNewOrdersForDelivery();
+	List<DeliveryOrderDetailsDTO> getOngoingOrdersForDelivery();
+	List<DeliveryOrderDetailsDTO> getDeliveredOrders();
 }
