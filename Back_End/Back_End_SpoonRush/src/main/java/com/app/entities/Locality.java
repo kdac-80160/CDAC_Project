@@ -2,6 +2,8 @@ package com.app.entities;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.*;
 
 @Entity
@@ -17,7 +19,9 @@ public class Locality extends BaseEntity {
 	@Column(length = 6)
 	private int pincode;
 	@Column(length = 30)
+	@JsonIgnore
 	private String city;
+	@JsonIgnore
 	@Column(length = 30)
 	private String state;
 }

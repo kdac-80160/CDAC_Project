@@ -62,4 +62,14 @@ public class Order extends BaseEntity implements Serializable {
 	
 	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<OrderedItem> orderedItemList = new ArrayList<OrderedItem>();
+	
+	public String getFirstName()
+	{
+		return userInOrder.getFirstName();
+	}
+	
+	public String getLastName()
+	{
+		return userInOrder.getLastName();
+	}
 }

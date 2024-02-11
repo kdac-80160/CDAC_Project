@@ -51,6 +51,12 @@ public class OrderController {
 		return ResponseEntity.status(HttpStatus.OK).body(orderService.changeOrderStatusForRestaurant(orderStatus));
 	}
 	
+	@GetMapping("/delivery/new")
+	public ResponseEntity<?> getNewOrders()
+	{
+		return null;
+	}
+	
 	@PostMapping("/delivery/changestatus")
 	public ResponseEntity<?> changeOrderStatusForDelivery(@RequestBody ChangeOrderStatusDTO orderStatus)
 	{
