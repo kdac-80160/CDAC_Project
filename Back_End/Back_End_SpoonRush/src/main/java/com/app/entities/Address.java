@@ -3,6 +3,7 @@ package com.app.entities;
 import javax.persistence.*;
 
 import com.app.enums.TypeOfAddress;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.*;
 
@@ -17,6 +18,7 @@ public class Address extends BaseEntity {
 
 	@ManyToOne
 	@JoinColumn(name = "user_id")
+	@JsonIgnore
 	private UserEntity userInAddress;
 	
 	@Column(length = 10)

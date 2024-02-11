@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.app.dto.ChangeOrderStatusDTO;
 import com.app.dto.OrderDTO;
 import com.app.service.OrderService;
 
@@ -25,9 +26,23 @@ public class OrderController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(orderService.createOrder(order));
 	}
 	
-	@GetMapping("/customer/{orderId}")
+	@GetMapping("/customer/details/{orderId}")
 	public ResponseEntity<?> getOrderDetails(@PathVariable Long orderId)
 	{
 		return ResponseEntity.status(HttpStatus.OK).body(orderService.getOrderDetails(orderId));
 	}
+	
+	
+	@GetMapping("/restaurant/pending")
+	public ResponseEntity<?> getPendingOrders()
+	{
+		return ResponseEntity.status(HttpStatus.OK).body(orderService.getPendingOrders());
+	}
+	
+	@PostMapping("/changestatus")
+	public ResponseEntity<?> changeOrderStatus(@RequestBody ChangeOrderStatusDTO orderStatus)
+	{
+		return ResponseEntity.status(HttpStatus.OK).body(orderService.changeOrderStatus(orderStatus));
+	}
+ 	
 }

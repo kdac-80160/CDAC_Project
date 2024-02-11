@@ -80,7 +80,7 @@ public class JwtUtils {
 	// Accepts Collection<GrantedAuthority> n rets comma separated list of it's
 	// string form
 
-	private String getAuthoritiesInString(Collection<? extends GrantedAuthority> authorities) {
+	public String getAuthoritiesInString(Collection<? extends GrantedAuthority> authorities) {
 		String authorityString = authorities.stream().
 				map(authority -> authority.getAuthority())
 				.collect(Collectors.joining(","));

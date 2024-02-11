@@ -18,6 +18,7 @@ import com.app.dao.OrderDao;
 import com.app.dao.OrderedItemDao;
 import com.app.dao.UserEntityDao;
 import com.app.dto.ApiResponse;
+import com.app.dto.ChangeOrderStatusDTO;
 import com.app.dto.CustomerOrderDetailsDTO;
 import com.app.dto.OrderDTO;
 import com.app.entities.Order;
@@ -90,4 +91,37 @@ public class OrderServiceImpl implements OrderService {
 		return mapper.map(order, CustomerOrderDetailsDTO.class);
 	}
 
+	@Override
+	public List<CustomerOrderDetailsDTO> getPendingOrders() {
+		
+		return orderDao.findAllByOrderStatus(OrderStatus.PENDING)
+				.stream()
+				.map(e -> mapper.map(e, CustomerOrderDetailsDTO.class))
+				.collect(Collectors.toList());
+	}
+
+	@Override
+	public ApiResponse changeOrderStatus(ChangeOrderStatusDTO orderStatus) {
+		//These are ordinals list for validating if a user is allowed to change the perticular status
+		List<Integer> listForCustomer = List.of(1);
+		List<Integer> listForDelivery = List.of(6,7,8);
+		List<Integer> listForRestaurant = List.of(2,3,4,5);
+		int count = 0;
+		String authority = userDetails.getAuthority();
+		if(authority.equals("ROLE_MANAGER") && listForRestaurant.contains(orderStatus.getOrderStatus().ordinal()))
+			count = orderDao.changeOrderStatus(orderStatus.getOrderStatus(), orderStatus.getId());
+		else if(authority.equals("ROLE_CUSTOMER") && listForCustomer.contains(orderStatus.getOrderStatus().ordinal()))
+			count = orderDao.changeOrderStatus(orderStatus.getOrderStatus(), orderStatus.getId());
+		else if(authority.equals("ROLE_DELIVERY") && listForDelivery.contains(orderStatus.getOrderStatus().ordinal()))
+			count = orderDao.changeOrderStatus(orderStatus.getOrderStatus(), orderStatus.getId());
+		else
+		{
+			return new ApiResponse("You are not authorized for this action.");
+		}
+		if(count == 1)
+			return new ApiResponse("Order status changed to "+orderStatus.getOrderStatus().toString());
+		else
+		return new ApiResponse("Some error has occured.");
+	}
+	
 }

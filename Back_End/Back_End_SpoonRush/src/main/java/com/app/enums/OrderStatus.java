@@ -1,8 +1,8 @@
 package com.app.enums;
 
 public enum OrderStatus {
-	PENDING,ACCEPTED,PREPARING,WAITING,READY_FOR_DELIVERY,ON_THE_WAY,DELIVERED,CANCELLED,REJECTED
-	// For a delivery partner, status with ACCEPTED, PREPARING, READY_FOR_DELIVERY orders are available for delivery.
-	// ON_THE_WAY / WAITING / DELIVERED => Will be sent by the delivery boy.
-	// 
+	PENDING,//By Default
+	CANCELLED, //From User
+	ACCEPTED,PREPARING,REJECTED,READY_FOR_DELIVERY, //From Restaurant
+	WAITING,ON_THE_WAY,DELIVERED // From delivery boy 
 }
