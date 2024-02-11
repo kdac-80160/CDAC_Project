@@ -16,5 +16,5 @@ public interface OrderDao extends JpaRepository<Order, Long> {
 	@Query("update Order o set o.orderStatus = :status where o.id = :orderId")
 	int changeOrderStatus(@Param("status") OrderStatus status, @Param("orderId") Long orderId);
 	@Query("select o from Order o where o.orderStatus IN (:statuses)")
-	List<Order> findAllByOrderStatuses(List<OrderStatus> listStatuses);
+	List<Order> findAllByOrderStatuses(@Param("statuses") List<OrderStatus> listStatuses);
 }

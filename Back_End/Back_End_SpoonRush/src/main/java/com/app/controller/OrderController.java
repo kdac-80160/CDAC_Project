@@ -54,7 +54,7 @@ public class OrderController {
 	@GetMapping("/delivery/new")
 	public ResponseEntity<?> getNewOrders()
 	{
-		return null;
+		return ResponseEntity.status(HttpStatus.OK).body(orderService.getNewOrdersForDelivery());
 	}
 	
 	@PostMapping("/delivery/changestatus")

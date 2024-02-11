@@ -186,19 +186,28 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public List<DeliveryOrderDetailsDTO> getNewOrdersForDelivery() {
 		List<OrderStatus> listStatuses = List.of(OrderStatus.ACCEPTED,OrderStatus.PREPARING,OrderStatus.READY_FOR_DELIVERY);
-		return null;
+		return orderDao.findAllByOrderStatuses(listStatuses)
+				.stream()
+				.map(o -> mapper.map(o, DeliveryOrderDetailsDTO.class))
+				.collect(Collectors.toList());
 	}
 
 	@Override
 	public List<DeliveryOrderDetailsDTO> getOngoingOrdersForDelivery() {
 		
-		return null;
+		return orderDao.findAllByOrderStatus(OrderStatus.ON_THE_WAY)
+				.stream()
+				.map(o -> mapper.map(o, DeliveryOrderDetailsDTO.class))
+				.collect(Collectors.toList());
 	}
 
 	@Override
 	public List<DeliveryOrderDetailsDTO> getDeliveredOrders() {
 		
-		return null;
+		return orderDao.findAllByOrderStatus(OrderStatus.DELIVERED)
+				.stream()
+				.map(o -> mapper.map(o, DeliveryOrderDetailsDTO.class))
+				.collect(Collectors.toList());
 	}
 
 }
