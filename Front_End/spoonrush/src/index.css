@@ -22,7 +22,7 @@ body {
   }
   
   .border-color {
-    border-color: #25493F;
+    border-color: #273e38;
   }
   
   .custom-bg-text {
@@ -30,16 +30,16 @@ body {
   }
   
   .bg-color {
-    background-color: #c84f61;
+    background-color: #f35a5a;
   }
   
   .text-color-second {
-    color:#EB455F;
+    color:#f60327;
   }
   
   .rounded-card {
     padding: 1.5em .5em .5em;
-    border-radius: 2em;
+    border-radius: 0em;
     box-shadow: 0 5px 10px #00000033;
   }
   

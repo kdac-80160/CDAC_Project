@@ -2,7 +2,7 @@ import React from 'react'
 
 function ContactUs() {
   return (
-<<<<<<< HEAD
+    <div className='container'>
     <div className="text-color ms-5 me-5 mr-5 mt-3">
     <h4 className="mb-3">Contact Us</h4>
     <b>
@@ -14,11 +14,7 @@ function ContactUs() {
       satisfaction is our priority, and we look forward to hearing from you.
     </b>
   </div>
-=======
-    <div>
-     <h2>Add ContactUs</h2> 
-    </div>
->>>>>>> afnan
+  </div>
   )
 }
 

@@ -58,7 +58,7 @@ const Signin = () => {
                   setTimeout(() => {
                     window.location.href = "/home";
                      
-                  }, 1000); // Redirect after 3 seconds
+                  }, 1000); 
                 } else {
                   toast.error(res.mesg, {
                     position: "top-center",
@@ -94,11 +94,11 @@ const Signin = () => {
     <div>
       <div className="mt-2 d-flex aligns-items-center justify-content-center">
         <div className="form-card border-color" style={{ width: "37rem" }}>
-          <div className="container-fluid">
+          <div className="container">
             <div
               className="card-header bg-color custom-bg-text mt-2 d-flex justify-content-center align-items-center"
               style={{
-                borderRadius: "1em",
+                borderRadius: "0em",
                 height: "38px",
               }}
             >
@@ -106,23 +106,6 @@ const Signin = () => {
             </div>
             <div className="card-body mt-3">
               <form>
-                {/* <div class="mb-3 text-color">
-                  <label for="role" class="form-label">
-                    <b>User Role</b>
-                  </label>
-                  <select
-                    onChange={handleUserInput}
-                    className="form-control"
-                    name="role"
-                  >
-                    <option value="0">Select Role</option>
-                    <option value="Admin"> Admin </option>
-                    <option value="Customer"> Customer </option>
-                    <option value="Restaurant"> Restaurant </option>
-                    <option value="Delivery"> Delivery Person </option>
-                  </select>
-                </div> */}
-
                 <div className="mb-3 text-color">
                   <label for="email" class="form-label">
                     <b>Email Id</b>

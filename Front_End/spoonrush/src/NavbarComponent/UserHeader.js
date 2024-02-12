@@ -1,5 +1,4 @@
 import React from 'react'
-<<<<<<< HEAD
 import { Link, useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 
@@ -27,13 +26,13 @@ const UserHeader = () => {
     <ul class="navbar-nav ms-auto mb-2 mb-lg-0 me-5">
       <li class="nav-item">
         <Link to="/customer/cart" class="nav-link active" aria-current="page">
-          <b className="text-color">My Cart</b>
+          <b className="text-color">Cart</b>
         </Link>
       </li>
 
       <li class="nav-item">
         <Link to="/customer/order" class="nav-link active" aria-current="page">
-          <b className="text-color">My Order</b>
+          <b className="text-color">Order</b>
         </Link>
       </li>
 
@@ -52,15 +51,6 @@ const UserHeader = () => {
   );
     
   
-=======
-
-const UserHeader = () => {
-  return (
-    <div>
-      
-    </div>
-  )
->>>>>>> afnan
 }
 
 export default UserHeader

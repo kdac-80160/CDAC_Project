@@ -37,7 +37,7 @@ const SignUp = () => {
           <div
             className="card-header bg-color custom-bg-text mt-2 d-flex justify-content-center align-items-center"
             style={{
-              borderRadius: "1em",
+              borderRadius: "0em",
               height: "45px",
             }}
           >

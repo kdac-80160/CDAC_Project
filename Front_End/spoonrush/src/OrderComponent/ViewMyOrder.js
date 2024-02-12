@@ -39,7 +39,8 @@ const ViewMyOrders = () => {
     return formattedDate;
   };
 
-  return (
+return (
+  <div className="container">
     <div className="mt-3">
       <div
         className="card form-card ms-2 me-2 mb-5 shadow-lg"
@@ -50,7 +51,7 @@ const ViewMyOrders = () => {
         <div
           className="card-header custom-bg-text text-center bg-color"
           style={{
-            borderRadius: "1em",
+            borderRadius: "0em",
             height: "50px",
           }}
         >
@@ -157,6 +158,7 @@ const ViewMyOrders = () => {
         </div>
       </div>
     </div>
+  </div>
   );
 };
 

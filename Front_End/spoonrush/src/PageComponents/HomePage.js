@@ -1,21 +1,53 @@
 
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { Await, useParams } from 'react-router-dom'
 import Carousel from './Carousel';
 import Footer from '../NavbarComponent/Footer';
+import axios from 'axios';
 
 function HomePage() {
+
+  let response;
     //get user id from url
      const { categoryId , categoryName} =useParams();
-
+    
      const [foods , setFoods]=useState([]);
      const [searchText ,setSearchText] =useState("");
      const [tempSearchText ,setTempSearchText]=useState("");
 
-  useEffect(()=>{},[]);
+  useEffect(()=>{
+    const fetchData = async () => {
+      try {
+        if (categoryId == null && searchText === "") {
+          // fetch all food
+        response = await axios.get(
+            `http://localhost:8080/food/fetch/all`
+          );
+        } else if (searchText) {
+          // fetch foods by name
+          response = await axios.get(
+            `http://localhost:8080/food/search?foodName=${searchText}`
+          );
+        } else {
+          // fetch foods by category
+          response = await axios.get(
+            `http://localhost:8080/food/fetch/category-wise?categoryId=${categoryId}`
+          );
+        }
+        if (response.data) {
+          setFoods(response.data.foods);
+        }
 
-  const searchFoods = () => {
-     
+      }catch(error){
+        console.error("Error fetch",error);
+      }
+    };
+     fetchData();
+  },[categoryId ,searchText]);
+
+  const searchFoods = (e) => {
+    e.preventDefault();
+    setSearchText(tempSearchText);
   };
 
 

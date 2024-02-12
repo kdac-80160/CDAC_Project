@@ -34,7 +34,7 @@ function Header() {
           </button>
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              <li class="nav-item dropdown">
+              {/* <li class="nav-item dropdown">
                 <a
                   class="nav-link dropdown-toggle text-color"
                   role="button"
@@ -57,7 +57,7 @@ function Header() {
                     );
                   })}
                 </ul>
-              </li>
+              </li> */}
               <li class="nav-item">
                 <Link to="/aboutus" class="nav-link active" aria-current="page">
                   <b className="text-color">About Us</b>

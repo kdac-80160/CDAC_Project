@@ -1,6 +1,6 @@
 import React from 'react'
-import carosal from "../Images/carousel_1.png"
-import img2 from "../Images/images.jpeg"
+import img1 from "../Images/img.jpeg"
+import img from "../Images/img1.jpeg"
 const Carousel = () => {
   return (
     <div
@@ -30,16 +30,16 @@ const Carousel = () => {
           aria-label="Slide 3"
         ></button>
       </div>
-      <div class="3-px-wide">
-      <div class="carousel-inner">
-        <div class="carousel-item active">
-          <img src={carosal} class="d-block w-100" alt="First Slide" />
+      <div className="3-px-wide">
+      <div className="carousel-inner">
+        <div className="carousel-item active">
+          <img src={img1} class="d-block w-100" alt="First Slide" />
         </div>
         <div class="carousel-item">
-          <img src={carosal} class="d-block w-100" alt="Second Slide" />
+          <img src={img} class="d-block w-100" alt="Second Slide" />
         </div>
         <div class="carousel-item">
-          <img src={carosal} class="d-block w-100" alt="Third Slide" />
+          <img src={img} class="d-block w-100" alt="Third Slide" />
         </div>
       </div>
       <button
