@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
-
 import { useNavigate } from 'react-router-dom';
-import { ToastContainer  } from 'react-toastify';
+import { ToastContainer, toast } from "react-toastify";
 import Footer from '../NavbarComponent/Footer';
+import "react-toastify/dist/ReactToastify.css";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -14,8 +14,8 @@ const SignUp = () => {
     lastName: "",
     email: "",
     password: "",
-    phoneNo: "",
-   
+    mobileNo: "",
+    
   });
 
  
@@ -25,8 +25,62 @@ const SignUp = () => {
   };
 
   const saveUser = (e) => {
-    
-    }
+    fetch("https://localhost:8443/users/signup",{
+      method : "POST",
+      headers : {
+        Accept : "application/json",
+        "Content-Type" : "application/json",
+      },
+      body : JSON.stringify(user)
+    })
+    .then((result)=> {
+      console.log("result",result);
+      result.json().then((res)=>{
+        console.log(res.mesg);
+        if(res.id!= null){
+          console.log("we got the registration here ");
+
+          toast.success("User Registered Successfully!", {
+            position: "top-center",
+            autoClose: 1500,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+          setTimeout(() => {
+            window.location.href = "/user/login";  
+          }, 1000);
+        }
+        else {
+          toast.error("Something Went Wrong!", {
+            position: "top-center",
+            autoClose: 1000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });  
+        }
+      });
+    })
+    .catch((error)=>{
+      console.error(error);
+      toast.error("Sry! server is down...",{
+        position: "top-center",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    })
+    e.preventDefault();
+    };
+
   return (
     <div>
     <div className="mt-2 d-flex aligns-items-center justify-content-center ms-2 me-2 mb-2">
@@ -108,10 +162,10 @@ const SignUp = () => {
                 <input
                   type="number"
                   className="form-control"
-                  id="phoneNo"
-                  name="phoneNo"
+                  id="mobileNo"
+                  name="mobileNo"
                   onChange={handleUserInput}
-                  value={user.phoneNo}
+                  value={user.mobileNo}
                 />
               </div>
 

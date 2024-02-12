@@ -1,133 +1,97 @@
+/* Main footer styles */
 footer {
-  /* padding: 14rem 0 9rem 0; */
-  padding: 20px 0;
-  background-color: #FCFFE7;
-  color: black;
-
-  h3{
-      color: black;
-      margin-bottom: 2.4rem;
-  };
-  p{
-      color: black;
-  };
+  padding: 20px 0; /* Padding for the entire footer */
+  background-color: #FCFFE7; /* Background color */
+  color: black; /* Text color */
 }
 
-.footer-bottom{
-  padding-top: 9rem;
-  hr{
-      margin-bottom: 2rem;
-      color: aliceblue;
-      height:  0.1px;
-  }
+/* Heading styles */
+.footer-sub h3 {
+  color: black; /* Heading color */
+  margin-bottom: 2.4rem; /* Spacing below headings */
 }
 
-/* .footer-social--icons {
-display: flex; Use flexbox}
+/* Paragraph styles */
+.footer-sub p {
+  color: black; /* Paragraph color */
+}
 
-.footer-social--icons > div {
-margin-right: 10px; /* Add some spacing between icons */
-/* } */ */
+/* Footer sections */
+.footer-sub {
+  flex: 1; /* Distribute available space evenly among sections */
+  margin: 0 10px; /* Add margin between sections */
+}
 
-
+/* Social media icons */
 .footer-social--icons {
-  display: flex;
-  align-items: center; /* Align icons vertically in the center */
+  display: flex; /* Use flexbox for icon alignment */
+  margin-right: 15px; /* Add spacing between icons */
 }
 
 .icons {
-  font-size: 24px; /* Adjust the size of the icons */
-  margin-right: 10px; /* Add spacing between icons */
-  color: red; /* Default color for icons */
-  transition: color 0.3s ease; /* Add smooth transition for hover effect */
+  font-size: 30px; /* Adjust icon size */
+  margin-right: 15px; /* Add spacing between icons */
+  color: red; /* Icon color */
+  transition: color 0.3s ease; /* Smooth color transition on hover */
 }
 
 .icons:last-child {
-  margin-right: 0; /* Remove margin from the last icon to prevent extra spacing */
+  margin-right: 10; /* Remove margin from the last icon */
 }
 
 .icons:hover {
-  color: black; /* Change color on hover to black */
+  color: black; /* Change icon color on hover */
 }
 
-
-
-
-
-
-.container.grid-four-column {
-  display: flex; /* Use flexbox */
-  flex-wrap: wrap; /* Allow items to wrap onto multiple lines */
-}
-
-.footer-logo,
-.footer-company,
-.footer-Contact,
-.footer-We-Deliver-to {
-
-  flex: 1; /* Distribute available space evenly among the items */
-  margin: 0 10px; /* Add margin between items */
-}
-
-/* for the brand logo */
+/* Brand logo */
 .icon-img {
-width: 120px;
-height: 50px;
+  width: 120px; /* Logo width */
+  height: 50px; /* Logo height */
 }
 
-
-
-.footer-sub h3 {
-  display: block;
-  margin-top: 0; 
-  /* Remove default top margin of the h3 elements */
-  margin-bottom: 10px;
-  gap: 3rem;
-}
-
-.footer-bottom {
-  margin-top: 20px; /* Add some space between the footer content and the hr */
-}
-
-.footer-bottom p {
-  margin-bottom: 5px; /* Add some space below the paragraph */
-}
-
-
-
-
-/*  here in the footer section of div i have to make the gap between the 
-individual links and not to look like it as a link instead just a text so there's a 
-code to it is here in below  */
-
+/* Adjustments for list items and links */
 .footer-sub ul {
-  list-style: none; /* Remove bullet points */
-  padding: 0; /* Remove default padding */
-  margin: 0; /* Remove default margin */
+  list-style: none; /* Remove bullet points from lists */
+  padding: 0; /* Remove default padding from lists */
+  margin: 0; /* Remove default margin from lists */
 }
 
 .footer-sub li {
-  margin-bottom: 10px; /* Add spacing between list items */
+  margin-bottom: 10px; /* Spacing between list items */
 }
 
 .footer-sub a {
-  text-decoration: none; /* Remove underline */
+  text-decoration: none; /* Remove underline from links */
   color: inherit; /* Inherit color from parent */
   cursor: pointer; /* Change cursor on hover */
 }
 
 .footer-sub a:hover {
-  text-decoration: none; 
+  text-decoration: none; /* Remove underline on hover */
 }
 
+/* Footer bottom */
+/* Footer bottom */
+.footer-bottom {
+  display: flex;
+  justify-content: center; /* Center align the content horizontally */
+  align-items: center; /* Center align the content vertically */
+  margin-top: 20px; /* Add some space between the footer content and the hr */
+}
 
-/* installed the react icon dependency 
- npm install react-icons --save
-*/
+.footer-bottom p {
+  margin: 0; /* Remove default margin */
+}
 
-.icons{
-  color: white;
-  font-size: 2.4rem;
-  position: relative;
-  cursor: pointer;
+/* Horizontal rule styles */
+hr {
+  margin: 20px auto; /* Center the horizontal rule */
+  color: black; /* Horizontal rule color */
+  height: 0.1px; /* Horizontal rule height */
+}
+
+/* Container for footer sections */
+.container {
+  display: flex; /* Use flexbox for layout */
+  flex-wrap: wrap; /* Allow items to wrap onto multiple lines */
 }
