@@ -18,7 +18,7 @@ const ViewCart = () => {
     const getAllCart = async () => {
       const allCart = await retrieveCart();
       if (allCart) {
-        setCarts(allCart.carts);
+        setCarts(allCart);
 
         if (allCart.totalCartAmount) {
           setCartAmount(allCart.totalCartAmount);
@@ -32,7 +32,7 @@ const ViewCart = () => {
   const retrieveCart = async () => {
     const response = await axios.get(
         //url dalna hai 
-      "", 
+      "https://localhost:8443/cart/all", 
       {
         headers: {
           Authorization: "Bearer " + customer_jwtToken, 
@@ -40,12 +40,14 @@ const ViewCart = () => {
       }
     );
     console.log(response.data);
+    addTotal(response.data);
     return response.data;
   };
 
   const deleteCart = (e) => {
-    fetch("http://localhost:8080/api/cart/delete", {
-      method: "DELETE",
+    console.log(e);
+    fetch(`https://localhost:8443/cart/remove/${e}`, {
+      method: "GET",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
@@ -98,21 +100,20 @@ const ViewCart = () => {
         });
         setTimeout(() => {
           window.location.reload(true);
-        }, 1000); // Redirect after 3 seconds
+        }, 1000); // Redirect after 3 seconds/
       });
   };
 
-  const incrementCart = (cart, e) => {
-    const data={};
-    // const data = { id: cart.id, userId: user.id, quantity: cart.quantity + 1 };
-    fetch("http://localhost:8080/cart/update", {
-      method: "PUT",
+  const incrementCart = (e) => {
+   
+    fetch(`https://localhost:8443/cart/add/${e}`, {
+      method: "GET",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
         Authorization: "Bearer " + customer_jwtToken,
       },
-      body: JSON.stringify(data),
+     
     })
       .then((result) => {
         result.json().then((res) => {
@@ -164,9 +165,10 @@ const ViewCart = () => {
   };
 
   const decrementCart = ( e) => {
-     
-    fetch("http://localhost:8080/cart/update", {
-      method: "PUT",
+      console.log(e);
+
+    fetch(`https://localhost:8443/cart/remove/${e}`, {
+      method: "GET",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
@@ -217,11 +219,11 @@ const ViewCart = () => {
           draggable: true,
           progress: undefined,
         });
-        setTimeout(() => {
-          window.location.reload(true);
-        }, 1000); // Redirect after 3 seconds
+         setTimeout(() => {
+           window.location.reload(true);
+       }, 1000); // Redirect after 3 seconds
       });
-  };
+   };
 
   const checkout = (e) => {
     e.preventDefault();
@@ -244,6 +246,12 @@ const ViewCart = () => {
     });
   };
 
+  const addTotal = (carts) => {
+    let total = 0;
+    carts.map((cart) => (total += cart.item.price * cart.quantity));
+    setCartAmount(total);
+  };
+
   return (
     <div className="container">
     <div className="mt-3">
@@ -260,7 +268,7 @@ const ViewCart = () => {
             height: "50px",
           }}
         >
-          <h2>My Cart</h2>
+          <h2>Cart</h2>
         </div>
         <div
           className="card-body"
@@ -286,9 +294,7 @@ const ViewCart = () => {
                     <tr>
                       <td>
                         <img
-                          src={
-                            "http://localhost:8080/api/food/" + cart.food.image1
-                          }
+                          src={ cart.item.imagePath}
                           class="img-fluid"
                           alt="food_pic"
                           style={{
@@ -297,24 +303,24 @@ const ViewCart = () => {
                         />
                       </td>
                       <td>
-                        <b>{cart.food.name}</b>
+                        <b>{cart.item.itemName}</b>
                       </td>
                       <td>
-                        <b>{cart.food.category.name}</b>
+                        <b>{cart.item.category}</b>
                       </td>
                       <td>
-                        <b>{cart.food.price}</b>
+                        <b>{cart.item.price}</b>
                       </td>
                       <td>
                         <button
-                          onClick={() => decrementCart(cart)}
+                          onClick={() => decrementCart(cart.item.id)}
                           className="btn btn-sm bg-color custom-bg-text me-2"
                         >
                           -
                         </button>
                         <b>{cart.quantity}</b>
                         <button
-                          onClick={() => incrementCart(cart)}
+                          onClick={() => incrementCart(cart.item.id)}
                           className="btn btn-sm bg-color custom-bg-text ms-2"
                         >
                           +
@@ -322,7 +328,7 @@ const ViewCart = () => {
                       </td>
                       <td>
                         <button
-                          onClick={() => deleteCart(cart.id)}
+                          onClick={() => deleteCart(cart.item.id)}
                           className="btn btn-sm bg-color custom-bg-text ms-2"
                         >
                           Delete

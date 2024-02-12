@@ -1,6 +1,6 @@
 import React from 'react'
-import carosal from "../Images/carousel_1.png"
-import img from "../Images/images.jpeg"
+import img1 from "../Images/img.jpeg"
+import img from "../Images/img1.jpeg"
 const Carousel = () => {
   return (
     <div
@@ -33,7 +33,7 @@ const Carousel = () => {
       <div className="3-px-wide">
       <div className="carousel-inner">
         <div className="carousel-item active">
-          <img src={img} class="d-block w-100" alt="First Slide" />
+          <img src={img1} class="d-block w-100" alt="First Slide" />
         </div>
         <div class="carousel-item">
           <img src={img} class="d-block w-100" alt="Second Slide" />
