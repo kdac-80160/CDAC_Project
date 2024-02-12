@@ -1,103 +1,78 @@
-import { 
-    MDBFooter,
-    MDBContainer,
-    MDBIcon,
-    MDBBtn
-  
-
-} from 'mdb-react-ui-kit'
-
-
-
-import React from 'react'
+import React from "react";
+import "../Styles/generic.css";
+import { IconName } from "react-icons/fa6";
+import {
+  FaInstagram,
+  FaSquareYoutube,
+  FaSquareXTwitter,
+} from "react-icons/fa6";
+import pic from "../Images/Spoon_Logo-removebg.png";
 
 const Footer = () => {
   return (
-    <MDBFooter className='text-center text-white' style={{ backgroundColor: '#f1f1f1' }}>
-    <MDBContainer className='pt-4'>
-      <section className='mb-4'>
-        <MDBBtn
-          rippleColor="dark"
-          color='link'
-          floating
-          size="lg"
-          className='text-dark m-1'
-          href='#!'
-          role='button'
-        >
-          <MDBIcon fab className='fab fa-facebook-f' />
-        </MDBBtn>
+    <div>
+      <footer>
+        <div className="container grid-four-column">
+          <div className="footer-logo">
+            <img src={pic} alt="img" className="icon-img" />
+            <p>© 2023 Some Technologies Pvt. Ltd</p>
+          </div>
 
-        <MDBBtn
-          rippleColor="dark"
-          color='link'
-          floating
-          size="lg"
-          className='text-dark m-1'
-          href='#!'
-          role='button'
-        >
-          <MDBIcon fab className='fa-twitter' />
-        </MDBBtn>
+          <div className="footer-sub footer-logo">
+            <h3>Company</h3>
+            <ul>
+              <li>
+                <a href="../PageComponents/AboutUS.js" target="_blank">
+                  About
+                </a>
+              </li>
+              <li>
+                <a href="../PageComponents/Team.js">Team</a>
+              </li>
+              <li>
+                <a href="../PageComponents/ContactUs.js">Contact</a>
+              </li>
+            </ul>
+          </div>
 
-        <MDBBtn
-          rippleColor="dark"
-          color='link'
-          floating
-          size="lg"
-          className='text-dark m-1'
-          href='#!'
-          role='button'
-        >
-          <MDBIcon fab className='fa-google' />
-        </MDBBtn>
+          <div className="footer-sub footer-logo">
+            <h3>Contact Us</h3>
+            <ul>
+              <li>
+                <a href="../PageComponents/ContactUs.js" target="_blank">
+                  Help & Support
+                </a>
+              </li>
+              <li>
+                <a href="../PageComponents/AboutUS.js">Partner with us</a>
+              </li>
+            </ul>
+          </div>
 
-        <MDBBtn
-          rippleColor="dark"
-          color='link'
-          floating
-          size="lg"
-          className='text-dark m-1'
-          href='#!'
-          role='button'
-        >
-          <MDBIcon fab className='fa-instagram' />
-        </MDBBtn>
-
-        <MDBBtn
-          rippleColor="dark"
-          color='link'
-          floating
-          size="lg"
-          className='text-dark m-1'
-          href='#!'
-          role='button'
-        >
-          <MDBIcon fab className='fa-linkedin' />
-        </MDBBtn>
-
-        <MDBBtn
-          rippleColor="dark"
-          color='link'
-          floating
-          size="lg"
-          className='text-dark m-1'
-          href='#!'
-          role='button'
-        >
-          <MDBIcon fab className='fa-github' />
-        </MDBBtn>
-      </section>
-    </MDBContainer>
-
-    <div className='text-center text-dark p-3' style={{ backgroundColor: 'rgba(0, 0, 0, 0.2)' }}>
-      © 2024 Copyright::
-      <a className='text-dark' href='https://SpoonRush.com/'>
-        <b>SpoonRush.com</b>
-      </a>
+          <div className="footer-sub footer-logo grid-two-column">
+            <h3>Social Media</h3>
+            <div className="footer-social--icons">
+              <div>
+                <FaInstagram className="icons" />
+              </div>
+              <div>
+                <FaSquareYoutube className="icons" />
+              </div>
+              <div>
+                <FaSquareXTwitter className="icons" />
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr />
+        <div className="container footer-bottom text-center">
+          <p>{new Date().getFullYear()} SpoonRush. All Rights Reserved</p>
+        </div>
+      </footer>
     </div>
-  </MDBFooter>
-  )
-}
+  );
+};
 
-export default Footer
+export default Footer;
+
+//text-center text-dark p-3

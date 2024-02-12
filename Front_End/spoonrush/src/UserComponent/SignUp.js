@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer  } from 'react-toastify';
+import Footer from '../NavbarComponent/Footer';
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -127,8 +128,9 @@ const SignUp = () => {
         </div>
       </div>
     </div>
+    <Footer/>
   </div>
-  )
+  );
 }
 
 export default SignUp

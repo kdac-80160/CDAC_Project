@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import React from "react";
+import Footer from "../NavbarComponent/Footer";
 const ViewMyOrders = () => {
   
   const customer_jwtToken = sessionStorage.getItem("jwtToken");
@@ -158,6 +159,7 @@ return (
         </div>
       </div>
     </div>
+    <Footer/>
   </div>
   );
 };

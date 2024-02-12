@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import logo from  "../Images/logo.png"
+import logo from  "../Images/Spoon_Logo-removebg.png"
 import { Link } from 'react-router-dom'
 import RoleNav from './RoleNav';
 function Header() {
@@ -9,18 +9,17 @@ function Header() {
      <div>
         <nav className="navbar navbar-expand-lg custom-bg text-color">
            <div className="container-fluid text-color">
-           <img
-            src={logo}
-            height="60"
-            width="auto"
-            class="d-inline-block align-top"
-            alt=""
-          />
-          <Link to="/" class="navbar-brand">
-            <i>
-              <b className="text-color-second ms-2">SpoonRush</b>
-            </i>
+           <Link to="/" className="navbar-brand">
+            <img
+              src={logo}
+              height="70"
+              width="auto"
+              class="d-inline-block align-top"
+              alt=""
+            />
           </Link>
+
+          {/* logo is added */}
           <button
             class="navbar-toggler"
             type="button"

@@ -1,0 +1,133 @@
+footer {
+  /* padding: 14rem 0 9rem 0; */
+  padding: 20px 0;
+  background-color: #FCFFE7;
+  color: black;
+
+  h3{
+      color: black;
+      margin-bottom: 2.4rem;
+  };
+  p{
+      color: black;
+  };
+}
+
+.footer-bottom{
+  padding-top: 9rem;
+  hr{
+      margin-bottom: 2rem;
+      color: aliceblue;
+      height:  0.1px;
+  }
+}
+
+/* .footer-social--icons {
+display: flex; Use flexbox}
+
+.footer-social--icons > div {
+margin-right: 10px; /* Add some spacing between icons */
+/* } */ */
+
+
+.footer-social--icons {
+  display: flex;
+  align-items: center; /* Align icons vertically in the center */
+}
+
+.icons {
+  font-size: 24px; /* Adjust the size of the icons */
+  margin-right: 10px; /* Add spacing between icons */
+  color: red; /* Default color for icons */
+  transition: color 0.3s ease; /* Add smooth transition for hover effect */
+}
+
+.icons:last-child {
+  margin-right: 0; /* Remove margin from the last icon to prevent extra spacing */
+}
+
+.icons:hover {
+  color: black; /* Change color on hover to black */
+}
+
+
+
+
+
+
+.container.grid-four-column {
+  display: flex; /* Use flexbox */
+  flex-wrap: wrap; /* Allow items to wrap onto multiple lines */
+}
+
+.footer-logo,
+.footer-company,
+.footer-Contact,
+.footer-We-Deliver-to {
+
+  flex: 1; /* Distribute available space evenly among the items */
+  margin: 0 10px; /* Add margin between items */
+}
+
+/* for the brand logo */
+.icon-img {
+width: 120px;
+height: 50px;
+}
+
+
+
+.footer-sub h3 {
+  display: block;
+  margin-top: 0; 
+  /* Remove default top margin of the h3 elements */
+  margin-bottom: 10px;
+  gap: 3rem;
+}
+
+.footer-bottom {
+  margin-top: 20px; /* Add some space between the footer content and the hr */
+}
+
+.footer-bottom p {
+  margin-bottom: 5px; /* Add some space below the paragraph */
+}
+
+
+
+
+/*  here in the footer section of div i have to make the gap between the 
+individual links and not to look like it as a link instead just a text so there's a 
+code to it is here in below  */
+
+.footer-sub ul {
+  list-style: none; /* Remove bullet points */
+  padding: 0; /* Remove default padding */
+  margin: 0; /* Remove default margin */
+}
+
+.footer-sub li {
+  margin-bottom: 10px; /* Add spacing between list items */
+}
+
+.footer-sub a {
+  text-decoration: none; /* Remove underline */
+  color: inherit; /* Inherit color from parent */
+  cursor: pointer; /* Change cursor on hover */
+}
+
+.footer-sub a:hover {
+  text-decoration: none; 
+}
+
+
+/* installed the react icon dependency 
+ npm install react-icons --save
+*/
+
+.icons{
+  color: white;
+  font-size: 2.4rem;
+  position: relative;
+  cursor: pointer;
+}
