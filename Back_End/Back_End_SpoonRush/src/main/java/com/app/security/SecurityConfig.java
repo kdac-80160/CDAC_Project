@@ -60,6 +60,7 @@ public class SecurityConfig {
 		.antMatchers("/orders/customer/**").hasRole("CUSTOMER")
 		.antMatchers("/orders/restaurant/**").hasRole("MANAGER")
 		.antMatchers("/orders/delivery/**").hasRole("DELIVERY")
+		.antMatchers("/users/customer/**").hasRole("CUSTOMER")
 		.antMatchers("/admin/").hasRole("ADMIN")
 		.anyRequest().authenticated()
 		.and()

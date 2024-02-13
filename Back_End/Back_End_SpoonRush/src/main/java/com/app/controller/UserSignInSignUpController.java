@@ -61,5 +61,6 @@ public class UserSignInSignUpController {
 						utils.getAuthoritiesInString(verifiedAuth.getAuthorities())));
 
 	}
+	
 
 }
