@@ -13,7 +13,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class OrderDTO {
-	private double totalAmount;
 	private Long addressId;
 	private PaymentMode paymentMode;
 	private PaymentStatus paymentStatus;

@@ -8,6 +8,7 @@ import javax.persistence.EntityManager;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +27,7 @@ import com.app.dto.CustomerOrderDetailsDTO;
 import com.app.dto.DeliveryOrderDetailsDTO;
 import com.app.dto.OrderDTO;
 import com.app.dto.RestaurantOrderDetailsDTO;
+import com.app.entities.CartItem;
 import com.app.entities.DeliveryLogs;
 import com.app.entities.Order;
 import com.app.entities.OrderedItem;
@@ -55,7 +57,7 @@ public class OrderServiceImpl implements OrderService {
 
 	@Autowired
 	private DeliveryLogsDao deliveryDao;
-	
+
 	@Autowired
 	private PaymentDao paymentDao;
 
@@ -68,23 +70,42 @@ public class OrderServiceImpl implements OrderService {
 	@Autowired
 	private EntityManager entityManager;
 
+	@Value("${gst.value}")
+	private double gst;
+
 	@Override
 	public ApiResponse createOrder(OrderDTO order) {
-		Order orderEntity = new Order();
+
+		// first find the userId
 		Long userId = userDetails.getUserId();
+
+		// find cartitems
+		List<CartItem> cartItems = cartDao.findAllByUserInCartId(userId);
+
+		// calculate total price
+		double totalAmount = cartItems.stream().map(c -> c.getItem().getPrice() * c.getQuantity())
+				.reduce((a, b) -> a + b).get();
+		totalAmount = totalAmount + totalAmount * gst;
+		
+		System.out.println("Amount calculated : " + totalAmount);
+		// create new order
+		
+		Order orderEntity = new Order();
+
 		orderEntity.setAddress(addressDao.findById(order.getAddressId()).orElse(null));
 		orderEntity.setUserInOrder(userDao.findById(userId).orElse(null));
 		orderEntity.setPayStatus(order.getPaymentStatus());
 		orderEntity.setPayMode(order.getPaymentMode());
-		orderEntity.setTotalAmount(order.getTotalAmount());
+		// set the total amount calculated above
+		orderEntity.setTotalAmount(totalAmount);
 		orderEntity.setOrderDate(LocalDateTime.now());
 		orderEntity.setOrderStatus(OrderStatus.PENDING);
 		orderEntity = orderDao.save(orderEntity);
 		Long orderId = orderEntity.getId();
 
 		entityManager.flush();
-
-		List<OrderedItem> orderDetails = cartDao.findAllByUserInCartId(userId).stream()
+		// Get list of order details objects
+		List<OrderedItem> orderDetails = cartItems.stream()
 				.map(c -> new OrderedItem(new OrderAndFooditemCPK(orderId, c.getCpk().getItemId()), c.getQuantity()))
 				.collect(Collectors.toList());
 
@@ -135,9 +156,11 @@ public class OrderServiceImpl implements OrderService {
 					DeliveryLogs delLogs = new DeliveryLogs(order, deliveryPartner, orderStatus.getOrderStatus(),
 							LocalDateTime.now());
 					deliveryDao.save(delLogs);
-					return new ChangeOrderStatusDTO(orderStatus.getId(), orderStatus.getOrderStatus(),orderStatus.getPaymentStatus(), "Success");
+					return new ChangeOrderStatusDTO(orderStatus.getId(), orderStatus.getOrderStatus(),
+							orderStatus.getPaymentStatus(), "Success");
 				} else {
-					return new ChangeOrderStatusDTO(orderStatus.getId(), null,orderStatus.getPaymentStatus(), "Already Assigned");
+					return new ChangeOrderStatusDTO(orderStatus.getId(), null, orderStatus.getPaymentStatus(),
+							"Already Assigned");
 				}
 			} else {
 				order.setOrderStatus(orderStatus.getOrderStatus());
@@ -147,8 +170,7 @@ public class OrderServiceImpl implements OrderService {
 					log.setDelStatus(orderStatus.getOrderStatus());
 					log.setDeliveryLog(LocalDateTime.now());
 				}
-				if(orderStatus.getOrderStatus() == OrderStatus.DELIVERED)
-				{
+				if (orderStatus.getOrderStatus() == OrderStatus.DELIVERED) {
 					order.setPayStatus(orderStatus.getPaymentStatus());
 					Payment payment = new Payment();
 					payment.setOrder(order);
@@ -156,12 +178,13 @@ public class OrderServiceImpl implements OrderService {
 					payment.setPaymentMode(order.getPayMode());
 					payment.setPaymentTime(LocalDateTime.now());
 					payment.setStatus(orderStatus.getPaymentStatus());
-					paymentDao.save(payment);	
+					paymentDao.save(payment);
 				}
-				return new ChangeOrderStatusDTO(orderStatus.getId(), orderStatus.getOrderStatus(),orderStatus.getPaymentStatus(), "Success");
+				return new ChangeOrderStatusDTO(orderStatus.getId(), orderStatus.getOrderStatus(),
+						orderStatus.getPaymentStatus(), "Success");
 			}
 		} else {
-			return new ChangeOrderStatusDTO(orderStatus.getId(), null, orderStatus.getPaymentStatus(),"Unauthorized");
+			return new ChangeOrderStatusDTO(orderStatus.getId(), null, orderStatus.getPaymentStatus(), "Unauthorized");
 		}
 
 	}
@@ -170,16 +193,15 @@ public class OrderServiceImpl implements OrderService {
 	public ChangeOrderStatusDTO changeOrderStatusForRestaurant(ChangeOrderStatusDTO orderStatus) {
 		int count = 0;
 		List<Integer> listForRestaurant = List.of(2, 3, 4, 5);
-		if (listForRestaurant.contains(orderStatus.getOrderStatus().ordinal())) 
-		{
+		if (listForRestaurant.contains(orderStatus.getOrderStatus().ordinal())) {
 			Order order = orderDao.findById(orderStatus.getId())
 					.orElseThrow(() -> new ResourceNotFoundException("Order does not exist."));
 			order.setOrderStatus(orderStatus.getOrderStatus());
 			order.setOrderLog(LocalDateTime.now());
-			return new ChangeOrderStatusDTO(orderStatus.getId(), orderStatus.getOrderStatus(),orderStatus.getPaymentStatus(), "Success");
-		}
-		else {
-			return new ChangeOrderStatusDTO(orderStatus.getId(), null,orderStatus.getPaymentStatus(),"Unauthorized");
+			return new ChangeOrderStatusDTO(orderStatus.getId(), orderStatus.getOrderStatus(),
+					orderStatus.getPaymentStatus(), "Success");
+		} else {
+			return new ChangeOrderStatusDTO(orderStatus.getId(), null, orderStatus.getPaymentStatus(), "Unauthorized");
 		}
 	}
 
@@ -199,9 +221,10 @@ public class OrderServiceImpl implements OrderService {
 				log.setDelStatus(orderStatus.getOrderStatus());
 				log.setDeliveryLog(LocalDateTime.now());
 			}
-			return new ChangeOrderStatusDTO(orderStatus.getId(), orderStatus.getOrderStatus(),orderStatus.getPaymentStatus(), "Success");
+			return new ChangeOrderStatusDTO(orderStatus.getId(), orderStatus.getOrderStatus(),
+					orderStatus.getPaymentStatus(), "Success");
 		} else {
-			return new ChangeOrderStatusDTO(orderStatus.getId(), null,orderStatus.getPaymentStatus(), "Unauthorized");
+			return new ChangeOrderStatusDTO(orderStatus.getId(), null, orderStatus.getPaymentStatus(), "Unauthorized");
 		}
 	}
 
@@ -217,81 +240,66 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public List<DeliveryOrderDetailsDTO> getOngoingOrdersForDelivery() {
 
-		return orderDao.findAllByOrderStatusesAndDelPartnerId(List.of(OrderStatus.WAITING,OrderStatus.ON_THE_WAY),
-				userDetails.getUserId()).
-				stream()
-				.map(o -> mapper.map(o, DeliveryOrderDetailsDTO.class)).collect(Collectors.toList());
+		return orderDao
+				.findAllByOrderStatusesAndDelPartnerId(List.of(OrderStatus.WAITING, OrderStatus.ON_THE_WAY),
+						userDetails.getUserId())
+				.stream().map(o -> mapper.map(o, DeliveryOrderDetailsDTO.class)).collect(Collectors.toList());
 	}
 
 	// For delivery guy
 	@Override
 	public List<DeliveryOrderDetailsDTO> getDeliveredOrders() {
 
-		return orderDao.findAllByOrderStatusAndDelInOrderId(OrderStatus.DELIVERED,userDetails.getUserId())
-				.stream()
-				.map(o -> mapper.map(o, DeliveryOrderDetailsDTO.class))
-				.collect(Collectors.toList());
+		return orderDao.findAllByOrderStatusAndDelInOrderId(OrderStatus.DELIVERED, userDetails.getUserId()).stream()
+				.map(o -> mapper.map(o, DeliveryOrderDetailsDTO.class)).collect(Collectors.toList());
 	}
-	
+
 	// For Customer
 	@Override
 	public List<CustomerOrderDetailsDTO> getUpcomingOrdersForCustomer() {
-		//EXCEPT => CANCELLED, REJECTED, DELIVERED
-		List<OrderStatus> listStatuses = List.of(OrderStatus.CANCELLED, OrderStatus.REJECTED,
-				OrderStatus.DELIVERED);
-		return orderDao.findAllByExcpetOrderStatusesAndUserId(listStatuses, userDetails.getUserId())
-				.stream()
-				.map(o -> mapper.map(o, CustomerOrderDetailsDTO.class))
-				.collect(Collectors.toList());
+		// EXCEPT => CANCELLED, REJECTED, DELIVERED
+		List<OrderStatus> listStatuses = List.of(OrderStatus.CANCELLED, OrderStatus.REJECTED, OrderStatus.DELIVERED);
+		return orderDao.findAllByExcpetOrderStatusesAndUserId(listStatuses, userDetails.getUserId()).stream()
+				.map(o -> mapper.map(o, CustomerOrderDetailsDTO.class)).collect(Collectors.toList());
 	}
 
 	@Override
 	public List<CustomerOrderDetailsDTO> getPreviousOrdersForCustomer() {
 		System.out.println(userDetails.getUserId());
-		return orderDao.findAllByOrderStatusesAndUserId(List.of(OrderStatus.CANCELLED,OrderStatus.DELIVERED), userDetails.getUserId())
-				.stream()
-				.map(o -> mapper.map(o, CustomerOrderDetailsDTO.class))
-				.collect(Collectors.toList());
+		return orderDao
+				.findAllByOrderStatusesAndUserId(List.of(OrderStatus.CANCELLED, OrderStatus.DELIVERED),
+						userDetails.getUserId())
+				.stream().map(o -> mapper.map(o, CustomerOrderDetailsDTO.class)).collect(Collectors.toList());
 	}
 
 	@Override
 	public List<RestaurantOrderDetailsDTO> getPendingOrdersForRestaurant() {
-		return orderDao.findAllByOrderStatus(OrderStatus.PENDING)
-				.stream()
-				.map(o -> mapper.map(o, RestaurantOrderDetailsDTO.class))
-				.collect(Collectors.toList());
+		return orderDao.findAllByOrderStatus(OrderStatus.PENDING).stream()
+				.map(o -> mapper.map(o, RestaurantOrderDetailsDTO.class)).collect(Collectors.toList());
 	}
 
 	@Override
 	public List<RestaurantOrderDetailsDTO> getDeliveredOrdersForRestaurant() {
-		return orderDao.findAllByOrderStatus(OrderStatus.DELIVERED)
-				.stream()
-				.map(o -> mapper.map(o, RestaurantOrderDetailsDTO.class))
-				.collect(Collectors.toList());
+		return orderDao.findAllByOrderStatus(OrderStatus.DELIVERED).stream()
+				.map(o -> mapper.map(o, RestaurantOrderDetailsDTO.class)).collect(Collectors.toList());
 	}
 
 	@Override
 	public List<RestaurantOrderDetailsDTO> getCancelledOrdersForRestaurant() {
-		return orderDao.findAllByOrderStatus(OrderStatus.CANCELLED)
-				.stream()
-				.map(o -> mapper.map(o, RestaurantOrderDetailsDTO.class))
-				.collect(Collectors.toList());
+		return orderDao.findAllByOrderStatus(OrderStatus.CANCELLED).stream()
+				.map(o -> mapper.map(o, RestaurantOrderDetailsDTO.class)).collect(Collectors.toList());
 	}
 
 	@Override
 	public List<RestaurantOrderDetailsDTO> getAllOrdersForRestaurant() {
-		return orderDao.findAll()
-				.stream()
-				.map(o -> mapper.map(o, RestaurantOrderDetailsDTO.class))
+		return orderDao.findAll().stream().map(o -> mapper.map(o, RestaurantOrderDetailsDTO.class))
 				.collect(Collectors.toList());
 	}
 
 	@Override
 	public List<RestaurantOrderDetailsDTO> getAllByOrderStatus(OrderStatus status) {
-		
-		return orderDao.findAllByOrderStatus(status)
-				.stream()
-				.map(o -> mapper.map(o, RestaurantOrderDetailsDTO.class))
+
+		return orderDao.findAllByOrderStatus(status).stream().map(o -> mapper.map(o, RestaurantOrderDetailsDTO.class))
 				.collect(Collectors.toList());
 	}
 

@@ -3,6 +3,7 @@ package com.app.dto;
 import com.app.entities.Address;
 import com.app.enums.OrderStatus;
 import com.app.enums.PaymentMode;
+import com.app.enums.PaymentStatus;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.AllArgsConstructor;
@@ -23,4 +24,5 @@ public class DeliveryOrderDetailsDTO {
 	private double totalAmount;
 	private OrderStatus orderStatus;
 	private PaymentMode payMode;
+	private PaymentStatus payStatus;
 }
