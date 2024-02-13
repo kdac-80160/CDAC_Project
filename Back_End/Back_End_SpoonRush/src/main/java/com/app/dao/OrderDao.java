@@ -38,4 +38,7 @@ public interface OrderDao extends JpaRepository<Order, Long> {
 	
 	@Query("select o from Order o where o.orderStatus NOT IN (:statuses) and o.userInOrder.id = :userId")
 	List<Order> findAllByExcpetOrderStatusesAndUserId(@Param("statuses") List<OrderStatus> listStatuses, @Param("userId") Long userId);
+	
+	@Query("select o from Order o where o.orderStatus IN (:statuses) and o.userInOrder.id = :userId")
+	List<Order> findAllByOrderStatusesAndUserId(@Param("statuses") List<OrderStatus> listStatuses, @Param("userId") Long userId);
 }

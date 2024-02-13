@@ -22,7 +22,7 @@ public class OrderController {
 	private OrderService orderService;
 	
 	@PostMapping("/customer/create")
-	public ResponseEntity<?> createOrder(@RequestBody OrderDTO order)
+	public ResponseEntity<?> createOrderForCustomer(@RequestBody OrderDTO order)
 	{
 		return ResponseEntity.status(HttpStatus.CREATED).body(orderService.createOrder(order));
 	}
@@ -34,30 +34,41 @@ public class OrderController {
 	}
 	
 	@GetMapping("/customer/upcoming")
-	public ResponseEntity<?> getUpcomingOrders()
+	public ResponseEntity<?> getUpcomingOrdersForCustomer()
 	{
-		return ResponseEntity.status(HttpStatus.OK).body(orderService.getUpcomingOrders());
+		return ResponseEntity.status(HttpStatus.OK).body(orderService.getUpcomingOrdersForCustomer());
 	}
 	
 	@GetMapping("/customer/previous")
-	public ResponseEntity<?> getPreviousOrders()
+	public ResponseEntity<?> getPreviousOrdersForCustomer()
 	{
-		return null;
+		return ResponseEntity.status(HttpStatus.OK).body(orderService.getPreviousOrdersForCustomer());
 	}
 	
 	
-	@GetMapping("/restaurant/get-by-status")
-	public ResponseEntity<?> getOrdersByStatus(@RequestBody OrderStatus orderStatus)
+	@GetMapping("/restaurant/get-by-status/{status}")
+	public ResponseEntity<?> getOrdersByStatusForRestaurant(@PathVariable String status)
 	{
-		return ResponseEntity.status(HttpStatus.OK).body(orderService.getPendingOrders());
+		return ResponseEntity.status(HttpStatus.OK).body(orderService.getAllByOrderStatus(OrderStatus.valueOf(status.toUpperCase())));
 	}
 	
 	@GetMapping("/restaurant/pending")
-	public ResponseEntity<?> getPendingOrders()
+	public ResponseEntity<?> getPendingOrdersForRestaurant()
 	{
-		return ResponseEntity.status(HttpStatus.OK).body(orderService.getPendingOrders());
+		return ResponseEntity.status(HttpStatus.OK).body(orderService.getPendingOrdersForRestaurant());
 	}
 	
+	@GetMapping("/restaurant/delivered")
+	public ResponseEntity<?> getDeliveredOrdersForRestaurant()
+	{
+		return ResponseEntity.status(HttpStatus.OK).body(orderService.getDeliveredOrdersForRestaurant());
+	}
+	
+	@GetMapping("/restaurant/cancelled")
+	public ResponseEntity<?> getCancelledOrdersForRestaurant()
+	{
+		return ResponseEntity.status(HttpStatus.OK).body(orderService.getCancelledOrdersForRestaurant());
+	}
 	
 	@PostMapping("/restaurant/change-status")
 	public ResponseEntity<?> changeOrderStatusForRestaurant(@RequestBody ChangeOrderStatusDTO orderStatus)

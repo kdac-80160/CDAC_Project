@@ -25,6 +25,7 @@ import com.app.dto.ChangeOrderStatusDTO;
 import com.app.dto.CustomerOrderDetailsDTO;
 import com.app.dto.DeliveryOrderDetailsDTO;
 import com.app.dto.OrderDTO;
+import com.app.dto.RestaurantOrderDetailsDTO;
 import com.app.entities.DeliveryLogs;
 import com.app.entities.Order;
 import com.app.entities.OrderedItem;
@@ -106,7 +107,7 @@ public class OrderServiceImpl implements OrderService {
 
 	// this is for restaurant to get the pending orders..
 	@Override
-	public List<CustomerOrderDetailsDTO> getPendingOrders() {
+	public List<CustomerOrderDetailsDTO> getPendingOrdersForCustomer() {
 
 		return orderDao.findAllByOrderStatus(OrderStatus.PENDING).stream()
 				.map(e -> mapper.map(e, CustomerOrderDetailsDTO.class)).collect(Collectors.toList());
@@ -234,7 +235,7 @@ public class OrderServiceImpl implements OrderService {
 	
 	// For Customer
 	@Override
-	public List<CustomerOrderDetailsDTO> getUpcomingOrders() {
+	public List<CustomerOrderDetailsDTO> getUpcomingOrdersForCustomer() {
 		//EXCEPT => CANCELLED, REJECTED, DELIVERED
 		List<OrderStatus> listStatuses = List.of(OrderStatus.CANCELLED, OrderStatus.REJECTED,
 				OrderStatus.DELIVERED);
@@ -245,9 +246,53 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public List<CustomerOrderDetailsDTO> getPreviousOrders() {
+	public List<CustomerOrderDetailsDTO> getPreviousOrdersForCustomer() {
+		System.out.println(userDetails.getUserId());
+		return orderDao.findAllByOrderStatusesAndUserId(List.of(OrderStatus.CANCELLED,OrderStatus.DELIVERED), userDetails.getUserId())
+				.stream()
+				.map(o -> mapper.map(o, CustomerOrderDetailsDTO.class))
+				.collect(Collectors.toList());
+	}
+
+	@Override
+	public List<RestaurantOrderDetailsDTO> getPendingOrdersForRestaurant() {
+		return orderDao.findAllByOrderStatus(OrderStatus.PENDING)
+				.stream()
+				.map(o -> mapper.map(o, RestaurantOrderDetailsDTO.class))
+				.collect(Collectors.toList());
+	}
+
+	@Override
+	public List<RestaurantOrderDetailsDTO> getDeliveredOrdersForRestaurant() {
+		return orderDao.findAllByOrderStatus(OrderStatus.DELIVERED)
+				.stream()
+				.map(o -> mapper.map(o, RestaurantOrderDetailsDTO.class))
+				.collect(Collectors.toList());
+	}
+
+	@Override
+	public List<RestaurantOrderDetailsDTO> getCancelledOrdersForRestaurant() {
+		return orderDao.findAllByOrderStatus(OrderStatus.CANCELLED)
+				.stream()
+				.map(o -> mapper.map(o, RestaurantOrderDetailsDTO.class))
+				.collect(Collectors.toList());
+	}
+
+	@Override
+	public List<RestaurantOrderDetailsDTO> getAllOrdersForRestaurant() {
+		return orderDao.findAll()
+				.stream()
+				.map(o -> mapper.map(o, RestaurantOrderDetailsDTO.class))
+				.collect(Collectors.toList());
+	}
+
+	@Override
+	public List<RestaurantOrderDetailsDTO> getAllByOrderStatus(OrderStatus status) {
 		
-		return null;
+		return orderDao.findAllByOrderStatus(status)
+				.stream()
+				.map(o -> mapper.map(o, RestaurantOrderDetailsDTO.class))
+				.collect(Collectors.toList());
 	}
 
 }
