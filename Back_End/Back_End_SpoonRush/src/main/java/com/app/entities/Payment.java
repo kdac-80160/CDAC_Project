@@ -40,10 +40,6 @@ public class Payment extends BaseEntity {
 	@Column(columnDefinition = "TIMESTAMP")
 	private LocalDateTime paymentTime;
 	
-	@ManyToOne
-	@JoinColumn(name = "user_id")
-	private UserEntity user;
-	
 	private double amountPaid;
 	
 	@Enumerated(EnumType.STRING)

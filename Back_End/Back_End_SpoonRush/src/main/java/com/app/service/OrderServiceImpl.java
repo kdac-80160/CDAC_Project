@@ -18,6 +18,7 @@ import com.app.dao.CartDao;
 import com.app.dao.DeliveryLogsDao;
 import com.app.dao.OrderDao;
 import com.app.dao.OrderedItemDao;
+import com.app.dao.PaymentDao;
 import com.app.dao.UserEntityDao;
 import com.app.dto.ApiResponse;
 import com.app.dto.ChangeOrderStatusDTO;
@@ -27,8 +28,10 @@ import com.app.dto.OrderDTO;
 import com.app.entities.DeliveryLogs;
 import com.app.entities.Order;
 import com.app.entities.OrderedItem;
+import com.app.entities.Payment;
 import com.app.entities.UserEntity;
 import com.app.enums.OrderStatus;
+import com.app.enums.PaymentStatus;
 import com.app.security.FindAuthenticationDetails;
 
 @Service
@@ -51,6 +54,9 @@ public class OrderServiceImpl implements OrderService {
 
 	@Autowired
 	private DeliveryLogsDao deliveryDao;
+	
+	@Autowired
+	private PaymentDao paymentDao;
 
 	@Autowired
 	private ModelMapper mapper;
@@ -128,9 +134,9 @@ public class OrderServiceImpl implements OrderService {
 					DeliveryLogs delLogs = new DeliveryLogs(order, deliveryPartner, orderStatus.getOrderStatus(),
 							LocalDateTime.now());
 					deliveryDao.save(delLogs);
-					return new ChangeOrderStatusDTO(orderStatus.getId(), orderStatus.getOrderStatus(), "Success");
+					return new ChangeOrderStatusDTO(orderStatus.getId(), orderStatus.getOrderStatus(),orderStatus.getPaymentStatus(), "Success");
 				} else {
-					return new ChangeOrderStatusDTO(orderStatus.getId(), null, "Already Assigned");
+					return new ChangeOrderStatusDTO(orderStatus.getId(), null,orderStatus.getPaymentStatus(), "Already Assigned");
 				}
 			} else {
 				order.setOrderStatus(orderStatus.getOrderStatus());
@@ -140,10 +146,21 @@ public class OrderServiceImpl implements OrderService {
 					log.setDelStatus(orderStatus.getOrderStatus());
 					log.setDeliveryLog(LocalDateTime.now());
 				}
-				return new ChangeOrderStatusDTO(orderStatus.getId(), orderStatus.getOrderStatus(), "Success");
+				if(orderStatus.getOrderStatus() == OrderStatus.DELIVERED)
+				{
+					order.setPayStatus(orderStatus.getPaymentStatus());
+					Payment payment = new Payment();
+					payment.setOrder(order);
+					payment.setAmountPaid(order.getTotalAmount());
+					payment.setPaymentMode(order.getPayMode());
+					payment.setPaymentTime(LocalDateTime.now());
+					payment.setStatus(orderStatus.getPaymentStatus());
+					paymentDao.save(payment);	
+				}
+				return new ChangeOrderStatusDTO(orderStatus.getId(), orderStatus.getOrderStatus(),orderStatus.getPaymentStatus(), "Success");
 			}
 		} else {
-			return new ChangeOrderStatusDTO(orderStatus.getId(), null, "Unauthorized");
+			return new ChangeOrderStatusDTO(orderStatus.getId(), null, orderStatus.getPaymentStatus(),"Unauthorized");
 		}
 
 	}
@@ -158,10 +175,10 @@ public class OrderServiceImpl implements OrderService {
 					.orElseThrow(() -> new ResourceNotFoundException("Order does not exist."));
 			order.setOrderStatus(orderStatus.getOrderStatus());
 			order.setOrderLog(LocalDateTime.now());
-			return new ChangeOrderStatusDTO(orderStatus.getId(), orderStatus.getOrderStatus(), "Success");
+			return new ChangeOrderStatusDTO(orderStatus.getId(), orderStatus.getOrderStatus(),orderStatus.getPaymentStatus(), "Success");
 		}
 		else {
-			return new ChangeOrderStatusDTO(orderStatus.getId(), null, "Unauthorized");
+			return new ChangeOrderStatusDTO(orderStatus.getId(), null,orderStatus.getPaymentStatus(),"Unauthorized");
 		}
 	}
 
@@ -181,9 +198,9 @@ public class OrderServiceImpl implements OrderService {
 				log.setDelStatus(orderStatus.getOrderStatus());
 				log.setDeliveryLog(LocalDateTime.now());
 			}
-			return new ChangeOrderStatusDTO(orderStatus.getId(), orderStatus.getOrderStatus(), "Success");
+			return new ChangeOrderStatusDTO(orderStatus.getId(), orderStatus.getOrderStatus(),orderStatus.getPaymentStatus(), "Success");
 		} else {
-			return new ChangeOrderStatusDTO(orderStatus.getId(), null, "Unauthorized");
+			return new ChangeOrderStatusDTO(orderStatus.getId(), null,orderStatus.getPaymentStatus(), "Unauthorized");
 		}
 	}
 
