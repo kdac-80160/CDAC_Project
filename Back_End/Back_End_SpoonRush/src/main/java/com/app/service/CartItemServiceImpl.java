@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.app.composite_pk.UserAndFooditemCPK;
+import com.app.custom_exceptions.ResourceNotFoundException;
 import com.app.dao.CartDao;
 import com.app.dto.ApiResponse;
 import com.app.dto.CartItemDTO;
@@ -38,6 +39,7 @@ public class CartItemServiceImpl implements CartItemService {
 		if (cartItem != null) {
 			// if exists then increase the count
 			cartItem.setQuantity(cartItem.getQuantity() + 1);
+			cartItem.setAddTime(LocalDateTime.now());
 			return new ApiResponse("Updated item " + itemId + " with quantity " + cartItem.getQuantity());
 		} else {
 			// If row does not exists then insert a new row with quantity as one
@@ -77,6 +79,17 @@ public class CartItemServiceImpl implements CartItemService {
 		return cartDao.findAllByUserInCartId(userId).stream()
 				.map(c -> mapper.map(c, CartItemDTO.class))
 				.collect(Collectors.toList());
+	}
+
+	@Override
+	public ApiResponse deleteItem(Long itemId) {
+		Long userId = userDetails.getUserId();
+		UserAndFooditemCPK cpk = new UserAndFooditemCPK(userId, itemId);
+
+		// Check if the user with the given itemId exists in the table or return null
+		CartItem cartItem = cartDao.findById(cpk).orElseThrow(()-> new ResourceNotFoundException("Item does not exist."));
+		cartDao.delete(cartItem);
+		return new ApiResponse("Item deleted successfully.");
 	}
 
 }

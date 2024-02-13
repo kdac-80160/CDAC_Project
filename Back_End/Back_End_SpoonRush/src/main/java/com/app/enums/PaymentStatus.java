@@ -1,5 +1,5 @@
 package com.app.enums;
 
 public enum PaymentStatus {
-	SUCCESSFUL,FAILED,PENDING,CANCELLED
+	COD_PAID,UNPAID,SUCCESSFUL,FAILED,PENDING,CANCELLED
 }

@@ -19,6 +19,7 @@ import javax.persistence.Table;
 
 import com.app.enums.OrderStatus;
 import com.app.enums.PaymentMode;
+import com.app.enums.PaymentStatus;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -41,6 +42,9 @@ public class Order extends BaseEntity implements Serializable {
 	@Column(columnDefinition = "TIMESTAMP")
 	private LocalDateTime orderDate;
 	
+	@Column(columnDefinition = "TIMESTAMP")
+	private LocalDateTime orderLog;
+	
 	private double totalAmount;
 	
 	@OneToOne
@@ -53,8 +57,17 @@ public class Order extends BaseEntity implements Serializable {
 	
 	@Enumerated(EnumType.STRING)
 	@Column(length = 20)
-	private OrderStatus orderStatus;
+	private PaymentStatus payStatus;
+	
+	@Enumerated(EnumType.STRING)
+	@Column(length = 20)
+	private OrderStatus orderStatus; // PENDING, ACCEPTED, REJECTED, PREPARING, READY_FOR_DELIVERY
+									 // ON_THE_WAY, DELIVERED, CANCELLED
 	// This is for restaurant.
+	
+//	@Enumerated(EnumType.STRING)
+//	@Column(length = 20)
+//	private OrderStatus delStatus;
 	
 	@ManyToOne
 	@JoinColumn(name = "del_partner_id")
@@ -71,5 +84,24 @@ public class Order extends BaseEntity implements Serializable {
 	public String getLastName()
 	{
 		return userInOrder.getLastName();
+	}
+	
+	public String getUserName()
+	{
+		return userInOrder.getFirstName()+" "+userInOrder.getLastName();
+	}
+	
+	public String getDeliveryGuyName()
+	{
+		if(delInOrder == null)
+			return null;
+		return delInOrder.getFirstName()+" "+delInOrder.getLastName();
+	}
+	
+	public String getDeliveryGuyNumber()
+	{
+		if(delInOrder == null)
+			return null;
+		return delInOrder.getMobileNo();
 	}
 }

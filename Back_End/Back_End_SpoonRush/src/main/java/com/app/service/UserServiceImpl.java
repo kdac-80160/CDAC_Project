@@ -1,5 +1,7 @@
 package com.app.service;
 
+import java.time.LocalDateTime;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -28,6 +30,7 @@ public class UserServiceImpl implements UserService {
 		//dto --> entity
 		UserEntity user=mapper.map(reqDTO, UserEntity.class);
 		user.setPassword(encoder.encode(user.getPassword()));//pwd : encrypted using SHA
+		user.setRegistrationTime(LocalDateTime.now());
 		return mapper.map(userDao.save(user), Signup.class);
 	}
 

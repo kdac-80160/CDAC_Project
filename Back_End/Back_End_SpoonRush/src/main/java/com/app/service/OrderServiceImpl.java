@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.app.composite_pk.OrderAndFooditemCPK;
+import com.app.custom_exceptions.ResourceNotFoundException;
 import com.app.dao.AddressDao;
 import com.app.dao.CartDao;
 import com.app.dao.DeliveryLogsDao;
@@ -66,6 +67,7 @@ public class OrderServiceImpl implements OrderService {
 		Long userId = userDetails.getUserId();
 		orderEntity.setAddress(addressDao.findById(order.getAddressId()).orElse(null));
 		orderEntity.setUserInOrder(userDao.findById(userId).orElse(null));
+		orderEntity.setPayStatus(order.getPaymentStatus());
 		orderEntity.setPayMode(order.getPaymentMode());
 		orderEntity.setTotalAmount(order.getTotalAmount());
 		orderEntity.setOrderDate(LocalDateTime.now());
@@ -96,6 +98,7 @@ public class OrderServiceImpl implements OrderService {
 		return mapper.map(order, CustomerOrderDetailsDTO.class);
 	}
 
+	// this is for restaurant to get the pending orders..
 	@Override
 	public List<CustomerOrderDetailsDTO> getPendingOrders() {
 
@@ -110,104 +113,124 @@ public class OrderServiceImpl implements OrderService {
 		 * perticular status
 		 */
 		List<Integer> listForDelivery = List.of(6, 7, 8);
-		int count = 0;
-		String authority = userDetails.getAuthority();
 
-		if (authority.equals("ROLE_DELIVERY") && listForDelivery.contains(orderStatus.getOrderStatus().ordinal())) {
+		if (listForDelivery.contains(orderStatus.getOrderStatus().ordinal())) {
 			// find the delivery partner id
 			Long delPartnerId = userDetails.getUserId();
-			// change status in the order's table
-			count = orderDao.changeOrderStatus(orderStatus.getOrderStatus(), orderStatus.getId());
-			// find if there is already a delivery log
-			DeliveryLogs log = deliveryDao.findByDelPartnerId(delPartnerId).orElse(null);
-			// if null, means there is no delivery log then we have to generate one
-			if (log == null) {
-				Order order = orderDao.findById(orderStatus.getId()).orElseThrow();
-				UserEntity deliveryPartner = userDao.findById(delPartnerId).orElseThrow();
-				DeliveryLogs delLogs = new DeliveryLogs(order, deliveryPartner, orderStatus.getOrderStatus(),
-						LocalDateTime.now());
-				deliveryDao.save(delLogs);
+			// find persistent entity
+			Order order = orderDao.findById(orderStatus.getId())
+					.orElseThrow(() -> new ResourceNotFoundException("Order does not exist."));
+			if (orderStatus.getOrderStatus() == OrderStatus.WAITING) {
+				if (order.getDelInOrder() == null) {
+					UserEntity deliveryPartner = userDao.findById(delPartnerId).orElse(null);
+					order.setDelInOrder(deliveryPartner);
+					order.setOrderLog(LocalDateTime.now());
+					DeliveryLogs delLogs = new DeliveryLogs(order, deliveryPartner, orderStatus.getOrderStatus(),
+							LocalDateTime.now());
+					deliveryDao.save(delLogs);
+					return new ChangeOrderStatusDTO(orderStatus.getId(), orderStatus.getOrderStatus(), "Success");
+				} else {
+					return new ChangeOrderStatusDTO(orderStatus.getId(), null, "Already Assigned");
+				}
+			} else {
+				order.setOrderStatus(orderStatus.getOrderStatus());
+				order.setOrderLog(LocalDateTime.now());
+				DeliveryLogs log = deliveryDao.findByDelPartnerId(delPartnerId).orElse(null);
+				if (log != null) {
+					log.setDelStatus(orderStatus.getOrderStatus());
+					log.setDeliveryLog(LocalDateTime.now());
+				}
+				return new ChangeOrderStatusDTO(orderStatus.getId(), orderStatus.getOrderStatus(), "Success");
 			}
-			// if it is not null, means there is already a delivery log then we have to
-			// change the delivery status as well as the new time
-			log.setDelStatus(orderStatus.getOrderStatus());
-			log.setDeliveryLog(LocalDateTime.now());
-		}
-		// if none of the above if statements worked, means the current user is
-		// unauthorized for the status change
-		else {
+		} else {
 			return new ChangeOrderStatusDTO(orderStatus.getId(), null, "Unauthorized");
 		}
-		if (count == 1)
-			return new ChangeOrderStatusDTO(orderStatus.getId(), orderStatus.getOrderStatus(), "Success");
-		else
-			return new ChangeOrderStatusDTO(orderStatus.getId(), null, "Failure");
+
 	}
 
 	@Override
 	public ChangeOrderStatusDTO changeOrderStatusForRestaurant(ChangeOrderStatusDTO orderStatus) {
 		int count = 0;
-		String authority = userDetails.getAuthority();
 		List<Integer> listForRestaurant = List.of(2, 3, 4, 5);
-		if (authority.equals("ROLE_MANAGER") && listForRestaurant.contains(orderStatus.getOrderStatus().ordinal()))
-			count = orderDao.changeOrderStatus(orderStatus.getOrderStatus(), orderStatus.getId());
+		if (listForRestaurant.contains(orderStatus.getOrderStatus().ordinal())) 
+		{
+			Order order = orderDao.findById(orderStatus.getId())
+					.orElseThrow(() -> new ResourceNotFoundException("Order does not exist."));
+			order.setOrderStatus(orderStatus.getOrderStatus());
+			order.setOrderLog(LocalDateTime.now());
+			return new ChangeOrderStatusDTO(orderStatus.getId(), orderStatus.getOrderStatus(), "Success");
+		}
 		else {
 			return new ChangeOrderStatusDTO(orderStatus.getId(), null, "Unauthorized");
 		}
-		if (count == 1)
-			return new ChangeOrderStatusDTO(orderStatus.getId(), orderStatus.getOrderStatus(), "Success");
-		else
-			return new ChangeOrderStatusDTO(orderStatus.getId(), null, "Failure");
 	}
 
 	@Override
 	public ChangeOrderStatusDTO changeOrderStatusForCustomer(ChangeOrderStatusDTO orderStatus) {
 		int count = 0;
-		String authority = userDetails.getAuthority();
 		List<Integer> listForCustomer = List.of(1);
-		if (authority.equals("ROLE_CUSTOMER") && listForCustomer.contains(orderStatus.getOrderStatus().ordinal())) {
+		if (listForCustomer.contains(orderStatus.getOrderStatus().ordinal())) {
 			// if the above condition is true that means the user has cancelled the order
 			// means we have to update the orders table and the delivery logs if any!
-			count = orderDao.changeOrderStatus(orderStatus.getOrderStatus(), orderStatus.getId());
+			Order order = orderDao.findById(orderStatus.getId())
+					.orElseThrow(() -> new ResourceNotFoundException("Order does not exist."));
+			order.setOrderStatus(orderStatus.getOrderStatus());
+			order.setOrderLog(LocalDateTime.now());
 			DeliveryLogs log = deliveryDao.findById(orderStatus.getId()).orElse(null);
-			if(log!=null) {
+			if (log != null) {
 				log.setDelStatus(orderStatus.getOrderStatus());
 				log.setDeliveryLog(LocalDateTime.now());
 			}
+			return new ChangeOrderStatusDTO(orderStatus.getId(), orderStatus.getOrderStatus(), "Success");
 		} else {
 			return new ChangeOrderStatusDTO(orderStatus.getId(), null, "Unauthorized");
 		}
-		if (count == 1)
-			return new ChangeOrderStatusDTO(orderStatus.getId(), orderStatus.getOrderStatus(), "Success");
-		else
-			return new ChangeOrderStatusDTO(orderStatus.getId(), null, "Failure");
 	}
 
 	@Override
 	public List<DeliveryOrderDetailsDTO> getNewOrdersForDelivery() {
-		List<OrderStatus> listStatuses = List.of(OrderStatus.ACCEPTED,OrderStatus.PREPARING,OrderStatus.READY_FOR_DELIVERY);
-		return orderDao.findAllByOrderStatuses(listStatuses)
-				.stream()
-				.map(o -> mapper.map(o, DeliveryOrderDetailsDTO.class))
-				.collect(Collectors.toList());
+		List<OrderStatus> listStatuses = List.of(OrderStatus.ACCEPTED, OrderStatus.PREPARING,
+				OrderStatus.READY_FOR_DELIVERY);
+		return orderDao.findAllByOrderStatusesAndDelPartnerIdIsNull(listStatuses).stream()
+				.map(o -> mapper.map(o, DeliveryOrderDetailsDTO.class)).collect(Collectors.toList());
 	}
 
+	// For delivery guy
 	@Override
 	public List<DeliveryOrderDetailsDTO> getOngoingOrdersForDelivery() {
-		
-		return orderDao.findAllByOrderStatus(OrderStatus.ON_THE_WAY)
+
+		return orderDao.findAllByOrderStatusesAndDelPartnerId(List.of(OrderStatus.WAITING,OrderStatus.ON_THE_WAY),
+				userDetails.getUserId()).
+				stream()
+				.map(o -> mapper.map(o, DeliveryOrderDetailsDTO.class)).collect(Collectors.toList());
+	}
+
+	// For delivery guy
+	@Override
+	public List<DeliveryOrderDetailsDTO> getDeliveredOrders() {
+
+		return orderDao.findAllByOrderStatusAndDelInOrderId(OrderStatus.DELIVERED,userDetails.getUserId())
 				.stream()
 				.map(o -> mapper.map(o, DeliveryOrderDetailsDTO.class))
 				.collect(Collectors.toList());
 	}
+	
+	// For Customer
+	@Override
+	public List<CustomerOrderDetailsDTO> getUpcomingOrders() {
+		//EXCEPT => CANCELLED, REJECTED, DELIVERED
+		List<OrderStatus> listStatuses = List.of(OrderStatus.CANCELLED, OrderStatus.REJECTED,
+				OrderStatus.DELIVERED);
+		return orderDao.findAllByExcpetOrderStatusesAndUserId(listStatuses, userDetails.getUserId())
+				.stream()
+				.map(o -> mapper.map(o, CustomerOrderDetailsDTO.class))
+				.collect(Collectors.toList());
+	}
 
 	@Override
-	public List<DeliveryOrderDetailsDTO> getDeliveredOrders() {
+	public List<CustomerOrderDetailsDTO> getPreviousOrders() {
 		
-		return orderDao.findAllByOrderStatus(OrderStatus.DELIVERED)
-				.stream()
-				.map(o -> mapper.map(o, DeliveryOrderDetailsDTO.class))
-				.collect(Collectors.toList());
+		return null;
 	}
 
 }

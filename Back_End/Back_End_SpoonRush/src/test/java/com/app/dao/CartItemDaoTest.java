@@ -29,7 +29,7 @@ class CartItemDaoTest {
 	@Test
 	void test() {
 		
-		List<CartItem> list1 = List.of(new CartItem(new UserAndFooditemCPK(1L, 1L), 3, LocalDateTime.now()),new CartItem(new UserAndFooditemCPK(1L, 2L), 4, LocalDateTime.now()));
+		List<CartItem> list1 = List.of(new CartItem(new UserAndFooditemCPK(2L, 1L), 3, LocalDateTime.now()),new CartItem(new UserAndFooditemCPK(2L, 2L), 4, LocalDateTime.now()));
 		
 		List<CartItem> list2 =  dao.saveAll(list1);
 		
