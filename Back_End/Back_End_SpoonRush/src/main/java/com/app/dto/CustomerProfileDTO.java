@@ -25,4 +25,6 @@ public class CustomerProfileDTO {
 	private String mobileNo;
 	@JsonProperty(access = Access.READ_ONLY)
 	private String email;
+	@JsonProperty(access = Access.READ_ONLY)
+	private String message;
 }

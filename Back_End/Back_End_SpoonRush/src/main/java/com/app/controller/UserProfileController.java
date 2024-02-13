@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,9 +28,9 @@ public class UserProfileController {
 		return ResponseEntity.status(HttpStatus.OK).body(userService.getCustomerProfile());
 	}
 	
-	@PostMapping("/customer/update-profile")
+	@PutMapping("/customer/update-profile")
 	public ResponseEntity<?> updateCustomerProfile(@RequestBody @Valid CustomerProfileDTO profileDTO)
 	{
-		return ResponseEntity.status(HttpStatus.OK).body(null);
+		return ResponseEntity.status(HttpStatus.OK).body(userService.updateCustomerProfile(profileDTO));
 	}
 }
