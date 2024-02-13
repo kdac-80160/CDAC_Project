@@ -31,10 +31,10 @@ class AddressDaoTest {
 	void test() {
 		// adding directly by finding individual objects
 //		Address address = new Address("24B","Bansal Hospital",TypeOfAddress.WORK,"Manisha Lake","Right from Hanuman Temple");
-		Address address = new Address("34A","HabibGanj Road",TypeOfAddress.HOME,"Near Over Bridge","Take left from underbridge.");
-		
-		UserEntity user = userDao.findByFirstName("Khagendra").orElseThrow();
-		Locality locality = locDao.findById(5L).orElseThrow();
+//		Address address = new Address("34A","HabibGanj Road",TypeOfAddress.HOME,"Near Over Bridge","Take left from underbridge.");
+		 Address address = new Address("12-C","Kohefiza Road",TypeOfAddress.HOME,"Near Noor-E-Sabah","Call when you reach.");
+		UserEntity user = userDao.findByFirstName("Sarthak").orElseThrow();
+		Locality locality = locDao.findById(3L).orElseThrow();
 		
 		address.setUserInAddress(user);
 		address.setLocality(locality);

@@ -9,18 +9,13 @@ import com.app.entities.OrderedItem;
 import com.app.enums.OrderStatus;
 import com.app.enums.PaymentMode;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
-public class CustomerOrderDetailsDTO {
+public class CustomerPreviousOrdersDTO {
 	@JsonProperty("orderId")
 	private Long id;
 	private LocalDateTime orderDate;
@@ -29,8 +24,4 @@ public class CustomerOrderDetailsDTO {
 	private PaymentMode payMode;
 	private OrderStatus orderStatus;
 	private List<OrderedItem> orderedItemList = new ArrayList<OrderedItem>();
-	@JsonProperty(access = Access.READ_ONLY)
-	private String deliveryGuyName;
-	@JsonProperty(access = Access.READ_ONLY)
-	private String deliveryGuyNumber;
 }

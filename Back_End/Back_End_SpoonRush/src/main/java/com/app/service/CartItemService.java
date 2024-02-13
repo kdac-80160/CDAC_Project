@@ -9,4 +9,5 @@ public interface CartItemService {
 	ApiResponse addItem(Long itemId);
 	ApiResponse removeItem(Long itemId);
 	List<CartItemDTO> getUserCartItems();
+	ApiResponse deleteItem(Long itemId);
 }
