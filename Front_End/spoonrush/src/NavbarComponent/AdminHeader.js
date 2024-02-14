@@ -25,7 +25,7 @@ const AdminHeader = () => {
   sessionStorage.removeItem("restaurant-jwtToken");
   window.location.reload(true);
   setTimeout(() => {
-    navigate("/home");
+    navigate("/");
   }, 2000);
 };
 

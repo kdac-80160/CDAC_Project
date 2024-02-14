@@ -21,7 +21,7 @@ public class OrderController {
 	@Autowired
 	private OrderService orderService;
 	
-	@PostMapping("/customer/create")
+	@PostMapping("/customer/place-order")
 	public ResponseEntity<?> createOrderForCustomer(@RequestBody OrderDTO order)
 	{
 		return ResponseEntity.status(HttpStatus.CREATED).body(orderService.createOrder(order));

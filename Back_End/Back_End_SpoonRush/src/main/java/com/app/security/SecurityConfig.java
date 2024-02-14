@@ -39,7 +39,7 @@ public class SecurityConfig {
 		configurationSource(request ->
 		{
 			CorsConfiguration corsConfig = new CorsConfiguration();
-		    corsConfig.addAllowedOrigin("http://localhost:3000");
+		    corsConfig.addAllowedOrigin("*");
 		    corsConfig.addAllowedMethod("*");
 		    corsConfig.addAllowedHeader("*");
 		    return corsConfig;

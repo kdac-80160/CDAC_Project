@@ -82,7 +82,7 @@ public class OrderServiceImpl implements OrderService {
 		// find cartitems
 		List<CartItem> cartItems = cartDao.findAllByUserInCartId(userId);
 
-		// calculate total price
+		// calculate total price from the cart items using stream
 		double totalAmount = cartItems.stream().map(c -> c.getItem().getPrice() * c.getQuantity())
 				.reduce((a, b) -> a + b).get();
 		totalAmount = totalAmount + totalAmount * gst;
