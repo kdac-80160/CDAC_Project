@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.app.dao.FoodItemDao;
+import com.app.dto.AddFoodItemDTO;
+import com.app.dto.ApiResponse;
 import com.app.dto.FoodItemDTO;
 import com.app.entities.FoodItem;
 
@@ -24,6 +26,9 @@ public class FoodItemServiceImpl implements FoodItemService {
 	
 	@Value("${fooditem.popRatingBase}")
 	private double popRatingBase;
+	
+	@Autowired
+	private ImageHandlingServiceImplFolder imageService;
 	
 	@Override
 	public List<FoodItemDTO> getPopularFoods() {
@@ -41,6 +46,16 @@ public class FoodItemServiceImpl implements FoodItemService {
 				.stream()
 				.map(f -> mapper.map(f, FoodItemDTO.class))
 				.collect(Collectors.toList());
+	}
+
+	@Override
+	public ApiResponse addFoodItem(AddFoodItemDTO foodItem) {
+		FoodItem item = mapper.map(foodItem, FoodItem.class);
+		String imagePath = imageService.uploadImage(foodItem.getImage());
+		System.out.println(imagePath);
+		item.setImagePath(imagePath);
+		foodDao.save(item);
+		return new ApiResponse("Item added successfully.");
 	}
 
 }

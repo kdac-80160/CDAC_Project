@@ -66,6 +66,7 @@ public class CartItemServiceImpl implements CartItemService {
 			}
 			// else decrease it's quantity
 			cartItem.setQuantity(cartItem.getQuantity() - 1);
+			cartItem.setAddTime(LocalDateTime.now());
 			return new ApiResponse("Updated item " + itemId + " with quantity " + cartItem.getQuantity());
 		} else {
 			// If row does not exists then give back response as no such item in the cart

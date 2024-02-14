@@ -38,7 +38,7 @@ public class FoodItem extends BaseEntity {
 	private String imagePath;
 	
 	@Column(length = 200)
-	private String discription;
+	private String description;
 	
 	private double price;
 	
@@ -50,12 +50,12 @@ public class FoodItem extends BaseEntity {
 	@Column(length = 20)
 	private SubCategory subCategory;
 	
-	public FoodItem(String itemName, String imagePath, String discription, double price, Category category,
+	public FoodItem(String itemName, String imagePath, String description, double price, Category category,
 			SubCategory subCategory, double avgRating) {
 		super();
 		this.itemName = itemName;
 		this.imagePath = imagePath;
-		this.discription = discription;
+		this.description = description;
 		this.price = price;
 		this.category = category;
 		this.subCategory = subCategory;

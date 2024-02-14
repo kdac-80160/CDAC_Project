@@ -27,7 +27,7 @@ public class Address extends BaseEntity {
 	@Column(length = 30)
 	private String streetName;
 	
-	@Column(length = 13, unique = true)
+	@Column(length = 13)
 	private String mobileNo;
 	
 	@Enumerated(EnumType.STRING)
@@ -48,6 +48,17 @@ public class Address extends BaseEntity {
 		super();
 		this.houseFlatNo = houseFlatNo;
 		this.streetName = streetName;
+		this.type = type;
+		this.landmark = landmark;
+		this.moreDetails = moreDetails;
+	}
+
+	public Address(String houseFlatNo, String streetName, String mobileNo, TypeOfAddress type, String landmark,
+			String moreDetails) {
+		super();
+		this.houseFlatNo = houseFlatNo;
+		this.streetName = streetName;
+		this.mobileNo = mobileNo;
 		this.type = type;
 		this.landmark = landmark;
 		this.moreDetails = moreDetails;

@@ -30,9 +30,9 @@ class AddressDaoTest {
 	@Test
 	void test() {
 		// adding directly by finding individual objects
-//		Address address = new Address("24B","Bansal Hospital",TypeOfAddress.WORK,"Manisha Lake","Right from Hanuman Temple");
-//		Address address = new Address("34A","HabibGanj Road",TypeOfAddress.HOME,"Near Over Bridge","Take left from underbridge.");
-		 Address address = new Address("12-C","Kohefiza Road",TypeOfAddress.HOME,"Near Noor-E-Sabah","Call when you reach.");
+//		Address address = new Address("24B","Bansal Hospital","9898234312",TypeOfAddress.WORK,"Manisha Lake","Right from Hanuman Temple");
+//		Address address = new Address("34A","HabibGanj Road","9090876753",TypeOfAddress.HOME,"Near Over Bridge","Take left from underbridge.");
+		 Address address = new Address("12-C","Kohefiza Road","9876535212",TypeOfAddress.HOME,"Near Noor-E-Sabah","Call when you reach.");
 		UserEntity user = userDao.findByFirstName("Sarthak").orElseThrow();
 		Locality locality = locDao.findById(3L).orElseThrow();
 		
