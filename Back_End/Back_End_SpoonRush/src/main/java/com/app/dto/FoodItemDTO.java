@@ -13,6 +13,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class FoodItemDTO {
+	private Long id;
 	private String itemName;
 	private String imagePath;
 	private String discription;

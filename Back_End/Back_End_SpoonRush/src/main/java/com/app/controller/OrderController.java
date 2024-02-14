@@ -27,7 +27,7 @@ public class OrderController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(orderService.createOrder(order));
 	}
 	
-	@PostMapping("/customer/change-status")
+	@PostMapping("/customer/cancel")
 	public ResponseEntity<?> changeOrderStatusForCustomer(@RequestBody ChangeOrderStatusDTO orderStatus)
 	{
 		return ResponseEntity.status(HttpStatus.OK).body(orderService.changeOrderStatusForCustomer(orderStatus));
