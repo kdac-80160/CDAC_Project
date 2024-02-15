@@ -56,6 +56,7 @@ public class SecurityConfig {
 		// only required for JS clnts (react / angular) : for the pre flight requests
 		.antMatchers(HttpMethod.OPTIONS).permitAll()
 		.antMatchers("/address/**").hasAnyRole("CUSTOMER")
+		.antMatchers("/locality/**").permitAll()
 		.antMatchers("/cart/**").hasRole("CUSTOMER")
 		.antMatchers("/orders/customer/**").hasRole("CUSTOMER")
 		.antMatchers("/orders/restaurant/**").hasRole("MANAGER")

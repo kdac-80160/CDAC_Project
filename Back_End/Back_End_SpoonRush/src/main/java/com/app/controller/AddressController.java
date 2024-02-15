@@ -24,7 +24,7 @@ public class AddressController {
 		return ResponseEntity.status(HttpStatus.OK).body(addService.getAddressesForUser());
 	}
 	
-	@PostMapping
+	@PostMapping("/add")
 	public ResponseEntity<?> addAddress(@RequestBody AddressDTO address)
 	{
 		return ResponseEntity.status(HttpStatus.CREATED).body(addService.addAddress(address));
