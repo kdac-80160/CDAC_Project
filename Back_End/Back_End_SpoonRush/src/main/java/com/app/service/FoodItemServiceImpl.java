@@ -14,6 +14,7 @@ import com.app.dto.AddFoodItemDTO;
 import com.app.dto.ApiResponse;
 import com.app.dto.FoodItemDTO;
 import com.app.entities.FoodItem;
+import com.app.enums.ResponseStatus;
 
 @Service
 @Transactional
@@ -55,7 +56,7 @@ public class FoodItemServiceImpl implements FoodItemService {
 		System.out.println(imagePath);
 		item.setImagePath(imagePath);
 		foodDao.save(item);
-		return new ApiResponse("Item added successfully.");
+		return new ApiResponse("Item added successfully.",ResponseStatus.SUCCESS);
 	}
 
 }

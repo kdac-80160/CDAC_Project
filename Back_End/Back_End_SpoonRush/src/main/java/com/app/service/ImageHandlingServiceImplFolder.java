@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.app.custom_exceptions.ApiException;
+import com.app.enums.ResponseStatus;
 
 @Component
 public class ImageHandlingServiceImplFolder implements ImageHandlingService {
@@ -36,7 +37,7 @@ public class ImageHandlingServiceImplFolder implements ImageHandlingService {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return null;
+			throw new ApiException("Failed");
 		}
 	}
 

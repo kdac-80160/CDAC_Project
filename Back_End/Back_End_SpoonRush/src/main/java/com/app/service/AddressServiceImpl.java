@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.app.custom_exceptions.ResourceNotFoundException;
 import com.app.dao.AddressDao;
 import com.app.dao.LocalityDao;
 import com.app.dao.UserEntityDao;
@@ -16,6 +17,7 @@ import com.app.dto.ApiResponse;
 import com.app.entities.Address;
 import com.app.entities.Locality;
 import com.app.entities.UserEntity;
+import com.app.enums.ResponseStatus;
 import com.app.security.FindAuthenticationDetails;
 
 @Service
@@ -47,15 +49,17 @@ public class AddressServiceImpl implements AddressService {
 	@Override
 	public ApiResponse addAddress(AddressDTO address) {
 		Long userId = userDetails.getUserId();
-		UserEntity user = userDao.findById(userId).orElse(null);
-		Locality locality = localityDao.findById(address.getLocalityId()).orElse(null);
+		UserEntity user = userDao.findById(userId).orElseThrow(()-> new ResourceNotFoundException("User does not exist"));
+		Locality locality = localityDao.
+							findById(address.getLocalityId()).
+							orElseThrow(()-> new ResourceNotFoundException("Locality does not exist"));
 		Address addressEntity = mapper.map(address, Address.class);
 		addressEntity.setLocality(locality);
 		addressEntity.setUserInAddress(user);
 		
 		addressEntity = addressDao.save(addressEntity);
 		
-		return new ApiResponse("Address added with id : "+addressEntity.getId());
+		return new ApiResponse("Address added with id : "+addressEntity.getId(), ResponseStatus.SUCCESS);
 	}
 
 }

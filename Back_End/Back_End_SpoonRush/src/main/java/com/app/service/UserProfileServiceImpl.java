@@ -28,7 +28,8 @@ public class UserProfileServiceImpl implements UserProfileService {
 	public CustomerProfileDTO getCustomerProfile() {
 		
 		return mapper.
-				map(userDao.findById(userDetails.getUserId()).orElseThrow(()-> new ResourceNotFoundException("User does not exist."))
+				map(userDao.findById(userDetails.getUserId())
+						.orElseThrow(()-> new ResourceNotFoundException("User does not exist."))
 						,CustomerProfileDTO.class);
 	}
 

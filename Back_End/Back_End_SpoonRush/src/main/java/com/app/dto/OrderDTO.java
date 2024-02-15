@@ -1,5 +1,7 @@
 package com.app.dto;
 
+import javax.validation.constraints.NotNull;
+
 import com.app.enums.PaymentMode;
 import com.app.enums.PaymentStatus;
 
@@ -13,7 +15,10 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class OrderDTO {
+	@NotNull
 	private Long addressId;
+	@NotNull
 	private PaymentMode paymentMode;
+	@NotNull
 	private PaymentStatus paymentStatus;
 }

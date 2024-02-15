@@ -35,6 +35,7 @@ import com.app.entities.Payment;
 import com.app.entities.UserEntity;
 import com.app.enums.OrderStatus;
 import com.app.enums.PaymentStatus;
+import com.app.enums.ResponseStatus;
 import com.app.security.FindAuthenticationDetails;
 
 @Service
@@ -116,7 +117,7 @@ public class OrderServiceImpl implements OrderService {
 		cartDao.deleteAllByUserInCartId(userId);
 
 		entityManager.flush();
-		return new ApiResponse("Ordered Sucessfully and status : PENDING");
+		return new ApiResponse("Ordered Sucessfully and status : PENDING",ResponseStatus.SUCCESS);
 	}
 
 	@Override

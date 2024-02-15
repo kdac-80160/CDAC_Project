@@ -15,6 +15,7 @@ import com.app.dao.CartDao;
 import com.app.dto.ApiResponse;
 import com.app.dto.CartItemDTO;
 import com.app.entities.CartItem;
+import com.app.enums.ResponseStatus;
 import com.app.security.CustomUserDetails;
 import com.app.security.FindAuthenticationDetails;
 
@@ -35,17 +36,17 @@ public class CartItemServiceImpl implements CartItemService {
 		Long userId = userDetails.getUserId();
 		UserAndFooditemCPK cpk = new UserAndFooditemCPK(userId, itemId);
 		// Check if the user with the given itemId exists in the table or return null
-		CartItem cartItem = cartDao.findById(cpk).orElse(null);
+		CartItem cartItem = cartDao.findById(cpk).orElseThrow(()->new ResourceNotFoundException("Item does not exist."));
 		if (cartItem != null) {
 			// if exists then increase the count
 			cartItem.setQuantity(cartItem.getQuantity() + 1);
 			cartItem.setAddTime(LocalDateTime.now());
-			return new ApiResponse("Updated item " + itemId + " with quantity " + cartItem.getQuantity());
+			return new ApiResponse("Updated item " + itemId + " with quantity " + cartItem.getQuantity(),ResponseStatus.SUCCESS);
 		} else {
 			// If row does not exists then insert a new row with quantity as one
 			CartItem newItem = new CartItem(cpk, 1, LocalDateTime.now());
 			cartDao.save(newItem);
-			return new ApiResponse("Added item " + itemId + " with quantity 1");
+			return new ApiResponse("Added item " + itemId + " with quantity 1", ResponseStatus.SUCCESS);
 		}
 	}
 
@@ -55,22 +56,22 @@ public class CartItemServiceImpl implements CartItemService {
 		UserAndFooditemCPK cpk = new UserAndFooditemCPK(userId, itemId);
 
 		// Check if the user with the given itemId exists in the table or return null
-		CartItem cartItem = cartDao.findById(cpk).orElse(null);
+		CartItem cartItem = cartDao.findById(cpk).orElseThrow(()->new ResourceNotFoundException("Item does not exist."));
 		if (cartItem != null) {
 			// if exists then check the count
 			if(cartItem.getQuantity() == 1)
 			{
 				// if quantity is 1 then further it will become zero, so mark the row for deletion
 				cartDao.delete(cartItem);
-				return new ApiResponse("Item removed from cart.");
+				return new ApiResponse("Item removed from cart.",ResponseStatus.SUCCESS);
 			}
 			// else decrease it's quantity
 			cartItem.setQuantity(cartItem.getQuantity() - 1);
 			cartItem.setAddTime(LocalDateTime.now());
-			return new ApiResponse("Updated item " + itemId + " with quantity " + cartItem.getQuantity());
+			return new ApiResponse("Updated item " + itemId + " with quantity " + cartItem.getQuantity(),ResponseStatus.SUCCESS);
 		} else {
 			// If row does not exists then give back response as no such item in the cart
-			return new ApiResponse("No such item is there.");
+			return new ApiResponse("No such item is there.",ResponseStatus.FAILED);
 		}
 	}
 
@@ -90,7 +91,7 @@ public class CartItemServiceImpl implements CartItemService {
 		// Check if the user with the given itemId exists in the table or return null
 		CartItem cartItem = cartDao.findById(cpk).orElseThrow(()-> new ResourceNotFoundException("Item does not exist."));
 		cartDao.delete(cartItem);
-		return new ApiResponse("Item deleted successfully.");
+		return new ApiResponse("Item deleted successfully.",ResponseStatus.SUCCESS);
 	}
 
 }

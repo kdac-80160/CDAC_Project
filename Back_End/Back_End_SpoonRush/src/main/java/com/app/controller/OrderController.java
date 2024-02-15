@@ -1,5 +1,7 @@
 package com.app.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +24,7 @@ public class OrderController {
 	private OrderService orderService;
 	
 	@PostMapping("/customer/place-order")
-	public ResponseEntity<?> createOrderForCustomer(@RequestBody OrderDTO order)
+	public ResponseEntity<?> createOrderForCustomer(@RequestBody @Valid OrderDTO order)
 	{
 		return ResponseEntity.status(HttpStatus.CREATED).body(orderService.createOrder(order));
 	}
@@ -71,7 +73,7 @@ public class OrderController {
 	}
 	
 	@PostMapping("/restaurant/change-status")
-	public ResponseEntity<?> changeOrderStatusForRestaurant(@RequestBody ChangeOrderStatusDTO orderStatus)
+	public ResponseEntity<?> changeOrderStatusForRestaurant(@RequestBody @Valid ChangeOrderStatusDTO orderStatus)
 	{
 		return ResponseEntity.status(HttpStatus.OK).body(orderService.changeOrderStatusForRestaurant(orderStatus));
 	}

@@ -1,5 +1,7 @@
 package com.app.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +27,7 @@ public class AddressController {
 	}
 	
 	@PostMapping("/add")
-	public ResponseEntity<?> addAddress(@RequestBody AddressDTO address)
+	public ResponseEntity<?> addAddress(@RequestBody @Valid AddressDTO address)
 	{
 		return ResponseEntity.status(HttpStatus.CREATED).body(addService.addAddress(address));
 	}
