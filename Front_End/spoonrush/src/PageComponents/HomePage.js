@@ -4,12 +4,13 @@ import { Await, useParams } from 'react-router-dom'
 import Carousel from './Carousel';
 import Footer from '../NavbarComponent/Footer';
 import axios from 'axios';
+import FoodCard from '../FoodComponents/FoodCard';
 
 function HomePage() {
 
   let response;
     //get user id from url
-     const { categoryId , categoryName} =useParams();
+     const { categoryId } =useParams();
     
      const [foods , setFoods]=useState([]);
      const [searchText ,setSearchText] =useState("");
@@ -21,21 +22,18 @@ function HomePage() {
         if (categoryId == null && searchText === "") {
           // fetch all food
         response = await axios.get(
-            `http://localhost:8080/food/fetch/all`
+            `https://localhost:8443/fooditems/`
           );
         } else if (searchText) {
           // fetch foods by name
           response = await axios.get(
             `http://localhost:8080/food/search?foodName=${searchText}`
           );
-        } else {
-          // fetch foods by category
-          response = await axios.get(
-            `http://localhost:8080/food/fetch/category-wise?categoryId=${categoryId}`
-          );
         }
         if (response.data) {
-          setFoods(response.data.foods);
+          console.log(response.data);
+          setFoods(response.data);
+          localStorage.setItem(foods);
         }
 
       }catch(error){
@@ -85,7 +83,8 @@ function HomePage() {
       <div className="col-md-12 mt-3 mb-5">
         <div className="row row-cols-1 row-cols-md-4 g-4">
           {foods.map((food) => {
-           //food card detail maped
+            console.log(food);
+           return <FoodCard  item={food}  key={food.id} />
           })}
         </div>
       </div>

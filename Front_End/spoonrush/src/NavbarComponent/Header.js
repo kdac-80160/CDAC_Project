@@ -1,9 +1,8 @@
-import React, { useState } from 'react'
+
 import logo from  "../Images/Spoon_Logo-removebg.png"
 import { Link } from 'react-router-dom'
 import RoleNav from './RoleNav';
 function Header() {
-  const [categories, setCategories] = useState([]);
 
   return (
      <div>
@@ -33,30 +32,12 @@ function Header() {
           </button>
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              {/* <li class="nav-item dropdown">
-                <a
-                  class="nav-link dropdown-toggle text-color"
-                  role="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  <b>Menu</b>
-                </a>
-                <ul class="dropdown-menu custom-bg text-color">
-                  {categories.map((category) => {
-                    return (
-                      <li>
-                        <Link
-                          to={`/food/category/${category.id}/${category.name}`}
-                          class="dropdown-item  text-center text-color-second"
-                        >
-                          <b>{category.name}</b>
-                        </Link>
-                      </li>
-                    );
-                  })}
-                </ul>
-              </li> */}
+              <li class="nav-item">
+                <Link to="/menu" class="nav-link active" aria-current="page">
+                  <b className="text-color">Menu</b>
+                </Link>
+              </li>
+
               <li class="nav-item">
                 <Link to="/aboutus" class="nav-link active" aria-current="page">
                   <b className="text-color">About Us</b>

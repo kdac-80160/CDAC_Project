@@ -5,7 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 const AdminHeader = () => {
   let navigate = useNavigate();
 
-  const user = JSON.parse(sessionStorage.getItem("active-restaurant"));
+  const user = sessionStorage.getItem("role");
   console.log(user);
 
   const restaurantLogout = () => {
@@ -25,7 +25,7 @@ const AdminHeader = () => {
   sessionStorage.removeItem("restaurant-jwtToken");
   window.location.reload(true);
   setTimeout(() => {
-    navigate("/");
+    navigate("/home");
   }, 2000);
 };
 

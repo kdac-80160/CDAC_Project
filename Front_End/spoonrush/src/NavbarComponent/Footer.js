@@ -22,7 +22,7 @@ const Footer = () => {
             <h3>Company</h3>
             <ul>
               <li>
-                <a href="../PageComponents/AboutUS.js" target="_blank">
+                <a href="" target="_blank">
                   About
                 </a>
               </li>

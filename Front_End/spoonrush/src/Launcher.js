@@ -7,6 +7,9 @@ import ContactUs from "./PageComponents/ContactUs";
 import AboutUS from "./PageComponents/AboutUS";
 import ViewMyOrders from "./OrderComponent/ViewMyOrder";
 import ViewCart from "./CartComponent/VIewCart";
+import Food from "./FoodComponents/Food";
+import AddCardDetail from "./OrderComponent/AddCardDetail";
+import PasswordReset from "./PasswordReset/PasswordReset";
 
 function Launcher() {
     return ( <div>
@@ -20,6 +23,9 @@ function Launcher() {
            <Route path="/aboutus" element={<AboutUS/>}/>
            <Route path="/customer/order" element={<ViewMyOrders/>}/>
            <Route path="/customer/cart" element={<ViewCart />}/>
+           <Route path="/customer/order/payment" element={<AddCardDetail/>}/>
+           <Route path="/menu" element={<Food/>}/>
+           <Route path="/user/customer/forgotPassword" element={<PasswordReset/>}/>
        </Routes> 
     </div> );
 }

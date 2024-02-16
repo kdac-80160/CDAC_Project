@@ -10,7 +10,6 @@ const ViewCart = () => {
   const [carts, setCarts] = useState([]);
   const [cartAmount, setCartAmount] = useState("0.0");
 
-  const [foodCart, setFoodCart] = useState({});
 
   let navigate = useNavigate();
 
