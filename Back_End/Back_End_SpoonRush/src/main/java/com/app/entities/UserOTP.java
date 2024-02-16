@@ -26,4 +26,6 @@ public class UserOTP extends BaseEntity {
 	
 	@Column(length = 6)
 	private String otp;
+	
+	private boolean verified;
 }

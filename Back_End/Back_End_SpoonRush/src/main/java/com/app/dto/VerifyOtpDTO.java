@@ -7,16 +7,15 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 @Getter
 @Setter
-@ToString(exclude = "newPassword")
 @AllArgsConstructor
 @NoArgsConstructor
-public class ResetPasswordDTO {
+public class VerifyOtpDTO {
 	@NotBlank(message = "Email is required.")
 	private String email;
-	@NotBlank(message = "New Password is required.")
-	private String newPassword;
+	@NotBlank(message = "OTP is required.")
+	@Size(min = 6, max = 6, message = "OTP should be of 6 digits")
+	private String otp;
 }
