@@ -10,6 +10,7 @@ import ViewCart from "./CartComponent/VIewCart";
 import Food from "./FoodComponents/Food";
 import AddCardDetail from "./OrderComponent/AddCardDetail";
 import PasswordReset from "./PasswordReset/PasswordReset";
+import ChangePassword from "./PasswordReset/ChangePassword";
 
 function Launcher() {
     return ( <div>
@@ -26,6 +27,8 @@ function Launcher() {
            <Route path="/customer/order/payment" element={<AddCardDetail/>}/>
            <Route path="/menu" element={<Food/>}/>
            <Route path="/user/customer/forgotPassword" element={<PasswordReset/>}/>
+           <Route path="/user/customer/changePassword/:email" element={<ChangePassword/>}/>
+           {/* your resturant route */}
        </Routes> 
     </div> );
 }

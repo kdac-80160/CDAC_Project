@@ -36,7 +36,7 @@ public class CartItemServiceImpl implements CartItemService {
 		Long userId = userDetails.getUserId();
 		UserAndFooditemCPK cpk = new UserAndFooditemCPK(userId, itemId);
 		// Check if the user with the given itemId exists in the table or return null
-		CartItem cartItem = cartDao.findById(cpk).orElseThrow(()->new ResourceNotFoundException("Item does not exist."));
+		CartItem cartItem = cartDao.findById(cpk).orElse(null);
 		if (cartItem != null) {
 			// if exists then increase the count
 			cartItem.setQuantity(cartItem.getQuantity() + 1);

@@ -26,21 +26,21 @@ const DeliveryHeader = () => {
     }, 2000); // Redirect after 3 seconds
   };
   return (
-    <ul class="navbar-nav ms-auto mb-2 mb-lg-0 me-5">
-      <li class="nav-item">
+    <ul className="navbar-nav ms-auto mb-2 mb-lg-0 me-5">
+      <li className="nav-item">
         <Link
           to="/delivery-person/order/all"
-          class="nav-link active"
+          className="nav-link active"
           aria-current="page"
         >
           <b className="text-color">My Delivery Orders</b>
         </Link>
       </li>
 
-      <li class="nav-item">
+      <li className="nav-item">
         <Link
           to=""
-          class="nav-link active"
+          className="nav-link active"
           aria-current="page"
           onClick={deliveryLogout}
         >

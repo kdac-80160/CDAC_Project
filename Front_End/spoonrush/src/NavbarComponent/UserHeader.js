@@ -1,6 +1,6 @@
-import React from 'react'
-import { Link, useNavigate } from 'react-router-dom';
-import { ToastContainer, toast } from 'react-toastify';
+import React from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
 
 const UserHeader = () => {
   let navigate = useNavigate();
@@ -49,8 +49,6 @@ const UserHeader = () => {
       </li>
     </ul>
   );
-    
-  
-}
+};
 
-export default UserHeader
+export default UserHeader;
