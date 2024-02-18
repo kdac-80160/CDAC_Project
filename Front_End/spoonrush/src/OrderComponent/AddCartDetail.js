@@ -1,6 +1,7 @@
 import React, { useState } from "react"; // Import React and useState
 import { useLocation, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
+import axios from 'axios'; // Import axios
 
 const AddCartDetail = () => {
   const location = useLocation();
@@ -9,69 +10,39 @@ const AddCartDetail = () => {
   const addressId = location.state.addressId;
   const customer_jwtToken = sessionStorage.getItem("jwtToken");
 
-  const paymentMode = ["COD", "UPI"];
+  const paymentMode = ["COD"];
   
-  const paymentStatus = ["COD_PAID", "UNPAID", "SUCCESSFUL", "FAILED"];
+  const paymentStatus = ["UNPAID"];
 
-  // Initialize card state using useState hook
-  const [card, setCard] = useState({
+  // Initialize cart state using useState hook
+  const [cart, setCart] = useState({
     paymentStatus: "",
     paymentMethod: "",
   });
 
-  // Function to handle card input changes
-  const handleCardInput = (e) => {
-    setCard({ ...card, [e.target.name]: e.target.value });
+  // Function to handle cart input changes
+  const handleCartInput = (e) => {
+    setCart({ ...cart, [e.target.name]: e.target.value });
   };
 
   // Function to handle form submission
   const payForOrder = (e) => {
     e.preventDefault();
-    fetch("https://localhost:8443/orders/customer/place-order", {
-      method: "POST",
+    axios.post("https://localhost:8443/orders/customer/place-order", {
+      addressId: addressId,
+      paymentStatus: "UNPAID",
+      paymentMode: "COD",
+    }, {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
         Authorization: "Bearer " + customer_jwtToken,
-      },
-      body: JSON.stringify({
-        addressId: addressId,
-        paymentStatus: card.paymentStatus,
-        paymentMode: card.paymentMethod,
-      }),
+      }
     })
-      .then((result) => {
-        result.json().then((res) => {
-          if (res.success) {
-            toast.success(res.responseMessage, {
-              position: "top-center",
-              autoClose: 1000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-            });
-
-            setTimeout(() => {
-              navigate("/customer/order");
-            }, 2000); // Redirect after 3 seconds
-          } else {
-            toast.error(res.responseMessage || "Payment failed", {
-              position: "top-center",
-              autoClose: 1000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-            });
-          }
-        });
-      })
-      .catch((error) => {
-        console.error(error);
-        toast.error("It seems the server is down", {
+    .then((response) => {
+      console.log(response);
+      if (response.data.status === "SUCCESS") {
+        toast.success(response.data.message, {
           position: "top-center",
           autoClose: 1000,
           hideProgressBar: false,
@@ -80,16 +51,42 @@ const AddCartDetail = () => {
           draggable: true,
           progress: undefined,
         });
+        setTimeout(() => {
+          navigate("/customer/order");
+        }, 2000); // Redirect after 3 seconds
+      } else {
+        toast.error(response.data.message, {
+          position: "top-center",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+      toast.error("It seems the server is down", {
+        position: "top-center",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
       });
+    });
   };
 
   return (
     <div className="mt-2 d-flex aligns-items-center justify-content-center">
-      <div className="card form-card border-color" style={{ width: "25rem" }}>
-        <div className="card-header bg-color custom-bg-text">
-          <h5 className="card-title text-center">Payment Details</h5>
+      <div className="cart form-cart border-color" style={{ width: "25rem" }}>
+        <div className="cart-header bg-color custom-bg-text">
+          <h5 className="cart-title text-center">Payment Details</h5>
         </div>
-        <div className="card-body text-color custom-bg">
+        <div className="cart-body text-color custom-bg">
           <form onSubmit={payForOrder}>
             <div className="mb-3">
               <label htmlFor="paymentStatus" className="form-label">
@@ -99,8 +96,8 @@ const AddCartDetail = () => {
                 id="paymentStatus"
                 className="form-select"
                 name="paymentStatus"
-                onChange={handleCardInput}
-                value={card.paymentStatus}
+                onChange={handleCartInput}
+                value={cart.paymentStatus}
                 required
               >
                 <option value="">Select Payment Status</option>
@@ -119,8 +116,8 @@ const AddCartDetail = () => {
                 id="paymentMethod"
                 className="form-select"
                 name="paymentMethod"
-                onChange={handleCardInput}
-                value={card.paymentMethod}
+                onChange={handleCartInput}
+                value={cart.paymentMethod}
                 required
               >
                 <option value="">Select Payment Method</option>

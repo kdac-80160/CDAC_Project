@@ -48,7 +48,7 @@ const FoodCard = (food) => {
             <div className="text-color-second">
               <p>
                 <span>
-                  <h4>Price : &#8377;{food.item.price}</h4>
+                  <span>Price : &#8377;{food.item.price}</span>
                 </span>
               </p>
             </div>

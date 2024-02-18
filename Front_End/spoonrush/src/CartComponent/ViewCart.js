@@ -267,7 +267,7 @@ const ViewCart = () => {
     {
     navigate("/customer/order/payment", {
       state: { priceToPay: cartAmount,
-              addressId : addresses.id
+              addressId : selectedAddress.id
               
        },
     });
