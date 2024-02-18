@@ -242,7 +242,7 @@ public class OrderServiceImpl implements OrderService {
 	public List<DeliveryOrderDetailsDTO> getOngoingOrdersForDelivery() {
 
 		return orderDao
-				.findAllByOrderStatusesAndDelPartnerId(List.of(OrderStatus.WAITING,OrderStatus.PREPARING,
+				.findAllByOrderStatusesAndDelPartnerId(List.of(OrderStatus.WAITING,OrderStatus.PREPARING,OrderStatus.ACCEPTED,
 						OrderStatus.READY_FOR_DELIVERY,OrderStatus.ON_THE_WAY),
 						userDetails.getUserId())
 				.stream().map(o -> mapper.map(o, DeliveryOrderDetailsDTO.class)).collect(Collectors.toList());
