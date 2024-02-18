@@ -29,15 +29,6 @@ const AdminHeader = () => {
   return (
     <ul className="navbar-nav ms-auto mb-2 mb-lg-0 me-5">
       <li className="nav-item">
-        <Link
-          to="/restaurant/order/all"
-          className="nav-link active"
-          aria-current="page"
-        >
-          <b className="text-color">Restaurant Orders</b>
-        </Link>
-      </li>
-      <li className="nav-item">
         <Link to="/food/add" className="nav-link active" aria-current="page">
           <b className="text-color">Add Food</b>
         </Link>
