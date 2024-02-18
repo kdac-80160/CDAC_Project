@@ -17,6 +17,8 @@ public interface OrderDao extends JpaRepository<Order, Long> {
 	
 	List<Order> findAllByOrderStatus(OrderStatus orderStatus);
 	
+	Optional<Order> findByIdAndUserInOrderId(Long orderId, Long userId);
+	
 	@Modifying
 	@Query("update Order o set o.orderStatus = :status where o.id = :orderId and o.userInOrder.id = :userId")
 	int changeOrderStatusByUserId(@Param("status") OrderStatus status, @Param("orderId") Long orderId, @Param("userId") Long userId);

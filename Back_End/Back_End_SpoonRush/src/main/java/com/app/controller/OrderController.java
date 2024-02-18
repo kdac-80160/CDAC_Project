@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,10 +30,10 @@ public class OrderController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(orderService.createOrder(order));
 	}
 	
-	@PostMapping("/customer/cancel")
-	public ResponseEntity<?> changeOrderStatusForCustomer(@RequestBody ChangeOrderStatusDTO orderStatus)
+	@PatchMapping("/customer/cancel/{orderId}")
+	public ResponseEntity<?> changeOrderStatusForCustomer(@PathVariable @Valid Long orderId)
 	{
-		return ResponseEntity.status(HttpStatus.OK).body(orderService.changeOrderStatusForCustomer(orderStatus));
+		return ResponseEntity.status(HttpStatus.OK).body(orderService.cancelOrderForCustomer(orderId));
 	}
 	
 	@GetMapping("/customer/upcoming")

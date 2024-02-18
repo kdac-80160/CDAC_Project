@@ -21,6 +21,8 @@ public interface OrderService {
 	List<CustomerOrderDetailsDTO> getUpcomingOrdersForCustomer();
 	// change order status for customer
 	ChangeOrderStatusDTO changeOrderStatusForCustomer(ChangeOrderStatusDTO orderStatus);
+	// cancel order for customer by id\
+	ApiResponse cancelOrderForCustomer(Long orderId);
 	// pending orders for restaurant
 	List<CustomerOrderDetailsDTO> getPendingOrdersForCustomer();
 	// change order status for restaurant

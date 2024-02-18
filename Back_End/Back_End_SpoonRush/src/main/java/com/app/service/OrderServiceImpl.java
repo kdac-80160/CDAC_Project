@@ -205,10 +205,26 @@ public class OrderServiceImpl implements OrderService {
 			return new ChangeOrderStatusDTO(orderStatus.getId(), null, orderStatus.getPaymentStatus(), "Unauthorized");
 		}
 	}
+	
+	@Override
+	public ApiResponse cancelOrderForCustomer(Long orderId) {
+		// find the order first, if the given order id does not belong to the user throw exception
+		Order order = orderDao.findByIdAndUserInOrderId(orderId, userDetails.getUserId())
+					  .orElseThrow(()-> new ResourceNotFoundException("No such order exists."));
+		order.setOrderStatus(OrderStatus.CANCELLED);
+		order.setOrderLog(LocalDateTime.now());
+		
+		// check if there is any delivery log for the same, if yes then update
+		DeliveryLogs log = deliveryDao.findById(orderId).orElse(null);
+		if (log != null) {
+			log.setDelStatus(OrderStatus.CANCELLED);
+			log.setDeliveryLog(LocalDateTime.now());
+		}
+		return new ApiResponse("Order cancelled successfully.", ResponseStatus.SUCCESS);
+	}
 
 	@Override
 	public ChangeOrderStatusDTO changeOrderStatusForCustomer(ChangeOrderStatusDTO orderStatus) {
-		int count = 0;
 		List<Integer> listForCustomer = List.of(1);
 		if (listForCustomer.contains(orderStatus.getOrderStatus().ordinal())) {
 			// if the above condition is true that means the user has cancelled the order
@@ -313,5 +329,6 @@ public class OrderServiceImpl implements OrderService {
 				.map(o -> mapper.map(o, RestaurantOrderDetailsDTO.class))
 				.collect(Collectors.toList());
 	}
+
 
 }

@@ -34,3 +34,4 @@ build/
 
 ###application properties file###
 application-dev.properties
+/.metadata/
