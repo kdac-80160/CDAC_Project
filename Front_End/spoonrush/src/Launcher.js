@@ -15,6 +15,7 @@ import PendingOrders from "./RestaurantComponent/PendingOrders";
 import OnGoingOrder from "./RestaurantComponent/OngoingOrders";
 import CancelledOrders from './RestaurantComponent/CancelledOrders'
 import DeliveredOrders from './RestaurantComponent/DeliveredOrders'
+import AddFoodItem from './RestaurantComponent/AddFoodItem'
 
 function Launcher() {
     return ( <div>
@@ -27,6 +28,7 @@ function Launcher() {
                 <Route path="ongoing-order" element={<OnGoingOrder/>}/>
                 <Route path="cancelled-order" element={<CancelledOrders/>}/>
                 <Route path="delivered-order" element={<DeliveredOrders/>}/>
+                <Route path="add-item" element={<AddFoodItem/>}/>
             </Route>
            <Route path="/user/login" element={<Signin/>}/>
            <Route path="/user/customer/register" element={<SignUp/>}/>
