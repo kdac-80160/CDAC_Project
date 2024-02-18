@@ -58,11 +58,11 @@ function HomePage() {
           {" "}
           <Carousel />
           <div className="d-flex aligns-items-center justify-content-center mt-5">
-            <form class="row g-3">
-              <div class="col-auto">
+            <form className="row g-3">
+              <div className="col-auto">
                 <input
                   type="text"
-                  class="form-control"
+                  className="form-control"
                   id="inputPassword2"
                   placeholder="Enter Food Name..."
                   onChange={(e) => setTempSearchText(e.target.value)}
@@ -73,10 +73,10 @@ function HomePage() {
                   required
                 />
               </div>
-              <div class="col-auto">
+              <div className="col-auto">
                 <button
                   type="submit"
-                  class="btn bg-color custom-bg-text mb-3"
+                  className="btn bg-color custom-bg-text mb-3"
                   onClick={searchFoods}
                 >
                   Search

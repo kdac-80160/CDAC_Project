@@ -31,10 +31,10 @@ const Carousel = () => {
       <div className="3-px-wide">
         <div className="carousel-inner">
           <div className="carousel-item active">
-            <img src={img1} className="d-block w-100" alt="First Slide" style={{height: '500px', objectFit: 'cover'}} />
+            <img src={img2} className="d-block w-100" alt="First Slide" style={{height: '500px', objectFit: 'cover'}} />
           </div>
           <div className="carousel-item">
-            <img src={img2} className="d-block w-100" alt="Second Slide" style={{height: '500px', objectFit: 'cover'}} />
+            <img src={img1} className="d-block w-100" alt="Second Slide" style={{height: '500px', objectFit: 'cover'}} />
           </div>
           <div className="carousel-item">
             <img src={img3} className="d-block w-100" alt="Third Slide" style={{height: '500px', objectFit: 'cover'}} />

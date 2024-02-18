@@ -23,23 +23,23 @@ const UserHeader = () => {
     }, 2000); // Redirect after 3 seconds
   };
   return (
-    <ul class="navbar-nav ms-auto mb-2 mb-lg-0 me-5">
-      <li class="nav-item">
-        <Link to="/customer/cart" class="nav-link active" aria-current="page">
+    <ul className="navbar-nav ms-auto mb-2 mb-lg-0 me-5">
+      <li className="nav-item">
+        <Link to="/customer/cart" className="nav-link active" aria-current="page">
           <b className="text-color">Cart</b>
         </Link>
       </li>
 
-      <li class="nav-item">
-        <Link to="/customer/order" class="nav-link active" aria-current="page">
+      <li className="nav-item">
+        <Link to="/customer/order" className="nav-link active" aria-current="page">
           <b className="text-color">Order</b>
         </Link>
       </li>
 
-      <li class="nav-item">
+      <li className="nav-item">
         <Link
           to="/"
-          class="nav-link active"
+          className="nav-link active"
           aria-current="page"
           onClick={userLogout}
         >

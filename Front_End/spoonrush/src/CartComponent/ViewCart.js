@@ -59,7 +59,7 @@ const ViewCart = () => {
 
   const deleteCart = (e) => {
     console.log(e);
-    fetch(`https://localhost:8443/cart/remove/${e}`, {
+    fetch(`https://localhost:8443/cart/delete/${e}`, {
       method: "GET",
       headers: {
         Accept: "application/json",

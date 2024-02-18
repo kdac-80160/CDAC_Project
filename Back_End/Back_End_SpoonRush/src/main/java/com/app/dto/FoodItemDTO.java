@@ -16,7 +16,7 @@ public class FoodItemDTO {
 	private Long id;
 	private String itemName;
 	private String imagePath;
-	private String discription;
+	private String description;
 	private double price;
 	private Category category;
 	private SubCategory subCategory;
