@@ -1,19 +1,17 @@
-import React from 'react'
-import img1 from "../Images/img.jpeg"
-import img from "../Images/img1.jpeg"
+import React from 'react';
+import img1 from "../Images/sample1.jpg";
+import img2 from "../Images/sample2.jpg";
+import img3 from "../Images/sample3.jpg";
+
 const Carousel = () => {
   return (
-    <div
-       id="carouselExampleCaptions"
-      class="carousel slide"
-      data-bs-ride="false"
-    >
-      <div class="carousel-indicators">
+    <div id="carouselExampleCaptions" className="carousel slide" data-bs-ride="false">
+      <div className="carousel-indicators">
         <button
           type="button"
           data-bs-target="#carouselExampleCaptions"
           data-bs-slide-to="0"
-          class="active"
+          className="active"
           aria-current="true"
           aria-label="Slide 1"
         ></button>
@@ -31,38 +29,38 @@ const Carousel = () => {
         ></button>
       </div>
       <div className="3-px-wide">
-      <div className="carousel-inner">
-        <div className="carousel-item active">
-          <img src={img1} class="d-block w-100" alt="First Slide" />
+        <div className="carousel-inner">
+          <div className="carousel-item active">
+            <img src={img1} className="d-block w-100" alt="First Slide" style={{height: '500px', objectFit: 'cover'}} />
+          </div>
+          <div className="carousel-item">
+            <img src={img2} className="d-block w-100" alt="Second Slide" style={{height: '500px', objectFit: 'cover'}} />
+          </div>
+          <div className="carousel-item">
+            <img src={img3} className="d-block w-100" alt="Third Slide" style={{height: '500px', objectFit: 'cover'}} />
+          </div>
         </div>
-        <div class="carousel-item">
-          <img src={img} class="d-block w-100" alt="Second Slide" />
-        </div>
-        <div class="carousel-item">
-          <img src={img} class="d-block w-100" alt="Third Slide" />
-        </div>
-      </div>
-      <button
-        class="carousel-control-prev"
-        type="button"
-        data-bs-target="#carouselExampleCaptions"
-        data-bs-slide="prev"
-      >
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span>
-      </button>
-      <button
-        class="carousel-control-next"
-        type="button"
-        data-bs-target="#carouselExampleCaptions"
-        data-bs-slide="next"
-      >
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span>
-      </button>
+        <button
+          className="carousel-control-prev"
+          type="button"
+          data-bs-target="#carouselExampleCaptions"
+          data-bs-slide="prev"
+        >
+          <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span className="visually-hidden">Previous</span>
+        </button>
+        <button
+          className="carousel-control-next"
+          type="button"
+          data-bs-target="#carouselExampleCaptions"
+          data-bs-slide="next"
+        >
+          <span className="carousel-control-next-icon" aria-hidden="true"></span>
+          <span className="visually-hidden">Next</span>
+        </button>
       </div>
     </div>
-  )
+  );
 }
 
-export default Carousel
+export default Carousel;
