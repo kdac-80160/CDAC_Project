@@ -39,7 +39,7 @@ const FoodCard = (food) => {
             </div>
           </h5>
           <p className="card-text">
-            <b>{descriptionToShow(food.item.discription, 50)}</b>
+            <b>{descriptionToShow(food.item.description, 50)}</b>
           </p>
         </div>
         <div className="card-footer">
