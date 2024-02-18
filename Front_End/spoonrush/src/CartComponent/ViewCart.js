@@ -1,17 +1,20 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
-const ViewCart = () => {
-  const customer_jwtToken = sessionStorage.getItem("jwtToken");
 
+
+
+const ViewCart = () => {
+  const [addresses, setAddresses] = useState([]);
+  const [selectedAddress, setSelectedAddress] = useState("");
+  const customer_jwtToken = sessionStorage.getItem("jwtToken");
   const [carts, setCarts] = useState([]);
   const [cartAmount, setCartAmount] = useState("0.0");
-
   let navigate = useNavigate();
-
+ 
   useEffect(() => {
     const getAllCart = async () => {
       const allCart = await retrieveCart();
@@ -23,9 +26,21 @@ const ViewCart = () => {
         }
       }
     };
-
+    fetchAddresses();
     getAllCart();
   }, []);
+
+  const fetchAddresses = async () => {
+    const response = await axios.get("https://localhost:8443/address/all",
+        {
+            headers: {
+                Authorization: "Bearer " + customer_jwtToken, 
+            },
+        }
+    );
+    console.log(response.data);
+    setAddresses(response.data);
+};
 
   const retrieveCart = async () => {
     const response = await axios.get(
@@ -221,8 +236,9 @@ const ViewCart = () => {
 
   const checkout = (e) => {
     e.preventDefault();
-
-    if (carts === null || carts.length < 1) {
+    
+    if ((carts === null || carts.length < 1 )) {
+      
       toast.error("No Foods In Cart To Order!!!", {
         position: "top-center",
         autoClose: 1000,
@@ -234,10 +250,28 @@ const ViewCart = () => {
       });
 
       return;
+    }else if(selectedAddress === "")
+    { 
+      toast.error("Please select The Address", {
+        position: "top-center",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+
     }
+    else
+    {
     navigate("/customer/order/payment", {
-      state: { priceToPay: cartAmount },
+      state: { priceToPay: cartAmount,
+              addressId : addresses.id
+              
+       },
     });
+  }
   };
 
   const addTotal = (carts) => {
@@ -246,8 +280,29 @@ const ViewCart = () => {
     setCartAmount(total);
   };
 
+  const handleSelectAddress = (address) => {
+    setSelectedAddress(address);
+   
+};
+
+const formatAddress = (address) => {
+    const parts = [
+        address.houseFlatNo,
+        address.streetName,
+        address.landmark,
+        address.locality.localityName,
+        address.type,
+        address.mobileNo
+    ];
+
+    const filteredParts = parts.filter(part => part);
+    return filteredParts.join(', ');
+};
+
   return (
-    <div className="container">
+    <div className="container"
+    style={{ display: 'flex', justifyContent: 'space-between' }}
+      >
       <div className="mt-3">
         <div
           className="card form-card ms-2 me-2 mb-5 shadow-lg"
@@ -274,7 +329,6 @@ const ViewCart = () => {
               <table className="table table-hover text-color text-center">
                 <thead className="table-bordered border-color bg-color custom-bg-text">
                   <tr>
-                    <th scope="col">Food</th>
                     <th scope="col">Food Name</th>
                     <th scope="col">Category</th>
                     <th scope="col">Price</th>
@@ -286,16 +340,6 @@ const ViewCart = () => {
                   {carts.map((cart) => {
                     return (
                       <tr>
-                        <td>
-                          <img
-                            src={cart.item.imagePath}
-                            class="img-fluid"
-                            alt="food_pic"
-                            style={{
-                              maxWidth: "90px",
-                            }}
-                          />
-                        </td>
                         <td>
                           <b>{cart.item.itemName}</b>
                         </td>
@@ -358,6 +402,48 @@ const ViewCart = () => {
             </div>
           </div>
         </div>
+      </div>
+      <div >
+          <div className="mt-2 d-flex aligns-items-center justify-content-center">
+                <div className="form-card border-color" style={{ width: "37rem" }}>
+                    <h2 className="card-header bg-color custom-bg-text mt-2 d-flex justify-content-center align-items-center" style={{ borderRadius: "0em", height: "38px" }}>All Addresses</h2>
+                    <div className="card-body mt-3 d-flex justify-content-center">
+                        <div>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Select</th>
+                                        <th>Address</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {addresses.map((address, index) => (
+                                        <tr key={index}>
+                                            <td>
+                                                <input
+                                                    type="radio"
+                                                    name="selectedAddress"
+                                                    value={address.id}
+                                                    onClick={() => handleSelectAddress(address)}
+                                                />
+                                            </td>
+                                            <td>{formatAddress(address)}</td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                            <br/>
+                        </div>   
+                    </div>
+                    {!selectedAddress && (
+                        <div className="add-address-button text-center">
+                            <Link to="/addaddress">
+                                <button className="btn bg-color custom-bg-text">Add Address</button>
+                            </Link>
+                        </div>
+                    )}
+                </div>
+            </div>
       </div>
     </div>
   );

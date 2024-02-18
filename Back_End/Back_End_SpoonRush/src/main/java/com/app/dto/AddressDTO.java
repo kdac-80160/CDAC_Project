@@ -19,6 +19,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AddressDTO {
+	private Long id;
 	@NotBlank
 	private String houseFlatNo;
 	@NotBlank
