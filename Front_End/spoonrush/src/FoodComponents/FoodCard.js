@@ -1,11 +1,15 @@
-
+import React from 'react';
 import ItemCounter from "../Styles/ItemCounter";
-
 
 const FoodCard = (food) => {
   console.log(food.item.itemName);
+
   const descriptionToShow = (description, maxLength) => {
-    // console.log(description.length);
+    // Check if description is null or undefined
+    if (!description) {
+      return ""; // or any other default value you prefer
+    }
+
     if (description.length <= maxLength) {
       return description;
     } else {
@@ -15,12 +19,11 @@ const FoodCard = (food) => {
   };
 
   return (
-   
     <div className="col">
-      <div class="card food-card rounded-card h-100 shadow-lg">
+      <div className="card food-card rounded-card h-100 shadow-lg">
         <img
           src={food.item.imagePath}
-          class="card-img-top rounded"
+          className="card-img-top rounded"
           alt="img"
           style={{
             maxHeight: "300px", // Adjust the maximum height as needed
@@ -28,8 +31,8 @@ const FoodCard = (food) => {
           }}
         />
 
-        <div class="card-body text-color">
-          <h5 class="card-title d-flex justify-content-between text-color-second">
+        <div className="card-body text-color">
+          <h5 className="card-title d-flex justify-content-between text-color-second">
             <div>
               <b>{food.item.itemName}</b>
             </div>
@@ -38,9 +41,9 @@ const FoodCard = (food) => {
             <b>{descriptionToShow(food.item.discription, 50)}</b>
           </p>
         </div>
-        <div class="card-footer">
+        <div className="card-footer">
           <div className="d-flex justify-content-between mt-2">
-             <ItemCounter item ={food.item} key={food.item.id}/>
+            <ItemCounter item={food.item} key={food.item.id} />
             <div className="text-color-second">
               <p>
                 <span>
