@@ -6,15 +6,17 @@ import SignUp from "./UserComponent/SignUp"
 import ContactUs from "./PageComponents/ContactUs";
 import AboutUS from "./PageComponents/AboutUS";
 import ViewMyOrders from "./OrderComponent/ViewMyOrder";
-import ViewCart from "./CartComponent/VIewCart";
+import ViewCart from "./CartComponent/ViewCart";
 import Food from "./FoodComponents/Food";
-import AddCardDetail from "./OrderComponent/AddCardDetail";
 import PasswordReset from "./PasswordReset/PasswordReset";
 import ChangePassword from "./PasswordReset/ChangePassword";
 import PendingOrders from "./RestaurantComponent/PendingOrders";
 import OnGoingOrder from "./RestaurantComponent/OngoingOrders";
 import CancelledOrders from './RestaurantComponent/CancelledOrders'
 import DeliveredOrders from './RestaurantComponent/DeliveredOrders'
+import AddAddress from "./AddressCart/AddAddress";
+import AddCartDetail from "./OrderComponent/AddCartDetail";
+
 
 function Launcher() {
     return ( <div>
@@ -34,10 +36,12 @@ function Launcher() {
            <Route path="/aboutus" element={<AboutUS/>}/>
            <Route path="/customer/order" element={<ViewMyOrders/>}/>
            <Route path="/customer/cart" element={<ViewCart />}/>
-           <Route path="/customer/order/payment" element={<AddCardDetail/>}/>
+           <Route path="/customer/order/payment" element={<AddCartDetail/>}/>
            <Route path="/menu" element={<Food/>}/>
            <Route path="/user/customer/forgotPassword" element={<PasswordReset/>}/>
            <Route path="/user/customer/changePassword/:email" element={<ChangePassword/>}/>
+           <Route path="/addaddress" element={<AddAddress/>}/>
+           
            {/* <Route path="/orders/pending" element={}/> */}
            {/* your resturant route */}
        </Routes> 
