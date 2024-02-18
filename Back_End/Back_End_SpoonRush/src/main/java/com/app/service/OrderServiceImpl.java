@@ -242,7 +242,8 @@ public class OrderServiceImpl implements OrderService {
 	public List<DeliveryOrderDetailsDTO> getOngoingOrdersForDelivery() {
 
 		return orderDao
-				.findAllByOrderStatusesAndDelPartnerId(List.of(OrderStatus.WAITING, OrderStatus.ON_THE_WAY),
+				.findAllByOrderStatusesAndDelPartnerId(List.of(OrderStatus.WAITING,OrderStatus.PREPARING,
+						OrderStatus.READY_FOR_DELIVERY,OrderStatus.ON_THE_WAY),
 						userDetails.getUserId())
 				.stream().map(o -> mapper.map(o, DeliveryOrderDetailsDTO.class)).collect(Collectors.toList());
 	}
@@ -301,6 +302,15 @@ public class OrderServiceImpl implements OrderService {
 	public List<RestaurantOrderDetailsDTO> getAllByOrderStatus(OrderStatus status) {
 
 		return orderDao.findAllByOrderStatus(status).stream().map(o -> mapper.map(o, RestaurantOrderDetailsDTO.class))
+				.collect(Collectors.toList());
+	}
+
+	@Override
+	public List<RestaurantOrderDetailsDTO> getOngoingOrdersForRestaurant() {
+		return orderDao.findAllByExceptOrderStatuses(List.of
+				(OrderStatus.DELIVERED,OrderStatus.CANCELLED,OrderStatus.REJECTED,OrderStatus.PENDING))
+				.stream()
+				.map(o -> mapper.map(o, RestaurantOrderDetailsDTO.class))
 				.collect(Collectors.toList());
 	}
 

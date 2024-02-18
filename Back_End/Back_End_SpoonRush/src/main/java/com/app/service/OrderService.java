@@ -33,6 +33,7 @@ public interface OrderService {
 	List<DeliveryOrderDetailsDTO> getDeliveredOrders();
 	// below all are for restaurant
 	List<RestaurantOrderDetailsDTO> getPendingOrdersForRestaurant();
+	List<RestaurantOrderDetailsDTO> getOngoingOrdersForRestaurant();
 	List<RestaurantOrderDetailsDTO> getDeliveredOrdersForRestaurant();
 	List<RestaurantOrderDetailsDTO> getCancelledOrdersForRestaurant();
 	List<RestaurantOrderDetailsDTO> getAllOrdersForRestaurant();

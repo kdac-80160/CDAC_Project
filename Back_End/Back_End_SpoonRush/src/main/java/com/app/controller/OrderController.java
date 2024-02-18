@@ -60,6 +60,12 @@ public class OrderController {
 		return ResponseEntity.status(HttpStatus.OK).body(orderService.getPendingOrdersForRestaurant());
 	}
 	
+	@GetMapping("/restaurant/ongoing")
+	public ResponseEntity<?> getOngoingOrdersForRestaurant()
+	{
+		return ResponseEntity.status(HttpStatus.OK).body(orderService.getOngoingOrdersForRestaurant());
+	}
+	
 	@GetMapping("/restaurant/delivered")
 	public ResponseEntity<?> getDeliveredOrdersForRestaurant()
 	{
