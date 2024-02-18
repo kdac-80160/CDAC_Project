@@ -17,6 +17,7 @@ import com.app.dao.UserOTPDao;
 import com.app.dto.ApiResponse;
 import com.app.dto.ResetPasswordDTO;
 import com.app.dto.Signup;
+import com.app.dto.VerifyOtpDTO;
 import com.app.entities.UserEntity;
 import com.app.entities.UserOTP;
 import com.app.enums.ResponseStatus;
@@ -62,12 +63,13 @@ public class UserServiceImpl implements UserService {
 		UserOTP userOtp = otpDao.findByUserEmail(email).orElse(null);
 		if(userOtp == null)
 		{
-			userOtp = new UserOTP(user, otp);
+			userOtp = new UserOTP(user, otp, false);
 			otpDao.save(userOtp);
 		}
 		else
 		{
 			userOtp.setOtp(otp);
+			userOtp.setVerified(false);
 		}
 		try {
 			emailUtil.sendOtpToEmail(email, otp);
@@ -84,7 +86,7 @@ public class UserServiceImpl implements UserService {
 				.orElseThrow(()-> new ResourceNotFoundException("Email does not exist"));
 		UserOTP otp = otpDao.findByUserEmail(resetPassDTO.getEmail())
 				.orElseThrow(()-> new ResourceNotFoundException("There is no otp for the given email."));
-		if(otp.getOtp().equals(resetPassDTO.getOtp()))
+		if(otp.isVerified())
 		{
 			user.setPassword(encoder.encode(resetPassDTO.getNewPassword()));
 			otpDao.delete(otp);
@@ -94,6 +96,20 @@ public class UserServiceImpl implements UserService {
 		{
 			return new ApiResponse("Wrong OTP entered.",ResponseStatus.FAILED);
 		}
+	}
+
+	@Override
+	public ApiResponse verifyOtp(VerifyOtpDTO verification) {
+		UserOTP otpEntity = otpDao.findByUserEmail(verification.getEmail())
+				.orElseThrow(()-> new ResourceNotFoundException("There is no otp for the given email."));
+		if(otpEntity.getOtp().equals(verification.getOtp()))
+		{
+			otpEntity.setVerified(true);
+			return new ApiResponse("Verified Successfully", ResponseStatus.SUCCESS);
+		}
+		else
+			return new ApiResponse("Wrong OTP Entered.", ResponseStatus.FAILED);
+		
 	}
 
 }

@@ -19,6 +19,7 @@ import com.app.dto.ResetPasswordDTO;
 import com.app.dto.SigninRequest;
 import com.app.dto.SigninResponse;
 import com.app.dto.Signup;
+import com.app.dto.VerifyOtpDTO;
 import com.app.security.JwtUtils;
 import com.app.service.UserService;
 
@@ -70,10 +71,14 @@ public class UserSignInSignUpController {
 	@GetMapping("/forgot-password")
 	public ResponseEntity<?> forgotPasswordFunction(@RequestParam String email)
 	{
-		System.out.println(email);
 		return ResponseEntity.status(HttpStatus.OK).body(userService.otpGeneration(email));
 	}
-	
+	//API for verifying otp
+	@PostMapping("/verify-otp")
+	public ResponseEntity<?> verifyOtpFunction(@RequestBody @Valid VerifyOtpDTO verification)
+	{
+		return ResponseEntity.status(HttpStatus.OK).body(userService.verifyOtp(verification));
+	}
 	//API for verifying otp
 	@PostMapping("/reset-password")
 	public ResponseEntity<?> resetPasswordFunction(@RequestBody ResetPasswordDTO resetPassDTO)

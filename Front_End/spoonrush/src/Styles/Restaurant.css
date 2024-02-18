@@ -1,0 +1,9 @@
+.page-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Ensure the container takes at least the full height of the viewport */
+  }
+  
+  .container-fluid {
+    flex: 1; /* Allow the container to grow and take available space */
+  }

@@ -1,13 +1,14 @@
-import React from 'react';
+import React from "react";
 import ItemCounter from "../Styles/ItemCounter";
 
 const FoodCard = (food) => {
   console.log(food.item.itemName);
 
+  const imageUrl = "https://localhost:8443/";
+
   const descriptionToShow = (description, maxLength) => {
-    // Check if description is null or undefined
     if (!description) {
-      return ""; // or any other default value you prefer
+      return "";
     }
 
     if (description.length <= maxLength) {
@@ -22,7 +23,7 @@ const FoodCard = (food) => {
     <div className="col">
       <div className="card food-card rounded-card h-100 shadow-lg">
         <img
-          src={food.item.imagePath}
+          src={imageUrl + food.item.imagePath}
           className="card-img-top rounded"
           alt="img"
           style={{

@@ -1,17 +1,12 @@
-
 import axios from "axios";
 import { useEffect, useState } from "react";
 import FoodCard from "./FoodCard";
 
-
 const Food = () => {
-
   const [foods, setFoods] = useState([]);
 
   const retrieveFood = async () => {
-    const response = await axios.get(
-      "https://localhost:8443/fooditems/",
-    );
+    const response = await axios.get("https://localhost:8443/fooditems/");
 
     return response.data;
   };
@@ -19,13 +14,12 @@ const Food = () => {
   useEffect(() => {
     const getFood = async () => {
       const retrievedFood = await retrieveFood();
-     console.log(retrievedFood);
+      console.log(retrievedFood);
       setFoods(retrievedFood);
     };
     getFood();
   }, []);
 
-  
   return (
     <div className="container-fluid">
       <div className="row mt-2">

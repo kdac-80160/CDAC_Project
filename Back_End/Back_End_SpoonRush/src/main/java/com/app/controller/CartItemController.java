@@ -20,6 +20,7 @@ public class CartItemController {
 	@GetMapping("/add/{itemId}")
 	public ResponseEntity<?> addItemToCart(@PathVariable Long itemId)
 	{
+		System.out.println(itemId);
 		return ResponseEntity.status(HttpStatus.OK).body(cartService.addItem(itemId));
 	}
 	
