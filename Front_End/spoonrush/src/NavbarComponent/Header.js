@@ -51,7 +51,7 @@ function Header() {
                   <li className="nav-item">
                     <Link
                       to="/aboutus"
-                      class="nav-link active"
+                      className="nav-link active"
                       aria-current="page"
                     >
                       <b className="text-color">About Us</b>

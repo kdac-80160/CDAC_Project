@@ -19,7 +19,7 @@ const AdminHeader = () => {
       progress: undefined,
     });
     sessionStorage.removeItem("role");
-    sessionStorage.removeItem("restaurant-jwtToken");
+    sessionStorage.removeItem("jwtToken");
     window.location.reload(true);
     setTimeout(() => {
       navigate("/home");
