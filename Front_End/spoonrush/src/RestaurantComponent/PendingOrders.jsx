@@ -73,7 +73,8 @@ function PendingOrders() {
                     {new Date(order.orderDate).toLocaleString('en-US',timeUtil)}
                   </p>
                   <p>
-                    <strong>Log:</strong> {new Date(order.orderLog).toLocaleString('en-US',timeUtil)}
+                  
+                    <strong>Log:</strong> {order.orderLog != null?<>{new Date(order.orderLog).toLocaleString('en-US',timeUtil)}</> : <>No Logs</>}
                   </p>
                   <p>
                     <strong>Total Amount:</strong> Rs. {order.totalAmount}

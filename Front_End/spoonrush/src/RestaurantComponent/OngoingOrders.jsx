@@ -87,7 +87,7 @@ function OnGoingOrder() {
                   </p>
                   <p>
                     <strong>Log:</strong>{" "}
-                    {new Date(order.orderLog).toLocaleString("en-US", timeUtil)}
+                    {order.orderLog != null?<>{new Date(order.orderLog).toLocaleString('en-US',timeUtil)}</> : <>No Logs</>}
                   </p>
                   <p>
                     <strong>Total Amount:</strong> Rs. {order.totalAmount}
