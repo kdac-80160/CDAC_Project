@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css'
-import { ToastContainer,toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 const ImageComponent = () => {
   const [formData, setFormData] = useState({
     itemName: '',
@@ -12,6 +12,8 @@ const ImageComponent = () => {
     avgRating: null,
     image: null,
   });
+
+  const emptyState = {...formData};
 
   axios.defaults.headers.common[
     "Authorization"
@@ -34,13 +36,31 @@ const ImageComponent = () => {
         }
       })
       .then((response) => {
-      
+        if(response.data.status === "SUCCESS")
+        {
+          toast.success(response.data.message, {
+            position: "top-center",
+            autoClose: 1000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          })
+          setFormData(emptyState);
+        }
       })
       .catch((error) => {
-        console.error('Error:', error);
+        toast.success(error.message, {
+          position: "top-center",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
       });
-    // Perform form submission logic here
-    console.log('Form Data:', formData);
   };
 
   return (<>
@@ -67,6 +87,7 @@ const ImageComponent = () => {
       <div className="mb-3">
         <label className="form-label">Category:</label>
         <select name="category" value={formData.category} onChange={handleInputChange} className="form-select" required>
+        <option >Select</option>
           <option value="VEG">Veg</option>
           <option value="NON_VEG">Non-Veg</option>
         </select>
@@ -75,8 +96,10 @@ const ImageComponent = () => {
       <div className="mb-3">
         <label className="form-label">SubCategory:</label>
         <select name="subCategory" value={formData.subCategory} onChange={handleInputChange} className="form-select" required>
+        <option >Select</option>
         <option value="SOUTH_INDIAN">South Indian</option>
         <option value="MAIN_COURSE">Main Course</option>
+        <option value="CHICKEN">Chicken</option>
         <option value="CHINESE">Chinese</option>
         <option value="BEVERAGES">Beverages</option>
         <option value="DESSERTS">Desserts</option>
@@ -87,6 +110,7 @@ const ImageComponent = () => {
         <option value="SANDWICHES">Sandwiches</option>
         <option value="BURGERS">Burgers</option>
         <option value="PIZZAS">Pizzas</option>
+        <option value="CAKE">Cake</option>
         <option value="PASTA">Pasta</option>
         <option value="WRAPS">Wraps</option>
         <option value="RICE_BOWLS">Rice Bowls</option>
