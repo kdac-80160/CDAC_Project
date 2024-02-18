@@ -31,8 +31,14 @@ const Order = () => {
   };
 
   const formatDateFromEpoch = (epochTime) => {
+    if (!epochTime) {
+      return "N/A"; // Return a placeholder for null or undefined values
+    }
     const date = new Date(epochTime);
-    return date.toLocaleString(); // Adjust the format as needed
+    const hours = date.getHours() % 12 || 12; // Convert to 12-hour format
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    const ampm = date.getHours() >= 12 ? 'PM' : 'AM'; // Determine AM/PM
+    return `${hours}:${minutes} ${ampm}`; // Return time in 12-hour format (hh:mm AM/PM)
   };
 
   const getStatusClassName = (status) => {
@@ -73,13 +79,10 @@ const Order = () => {
     }
   };
 
-  const calculateETA = (orderTime) => {
+  const calculateDeliveryTime = (orderTime) => {
     const orderTimestamp = new Date(orderTime).getTime();
-    const etaTimestamp = orderTimestamp + (30 * 60000); // Add 30 minutes
-    const currentTimestamp = new Date().getTime();
-    const remainingMilliseconds = etaTimestamp - currentTimestamp;
-    const remainingMinutes = Math.ceil(remainingMilliseconds / 60000); // Converting milliseconds to minutes and rounding up
-    return Math.max(remainingMinutes, 0); // Return 0 if ETA has already passed
+    const deliveryTimestamp = orderTimestamp + (25 * 60000); // Add 25 minutes
+    return formatDateFromEpoch(deliveryTimestamp);
   };
 
   return (
@@ -115,7 +118,7 @@ const Order = () => {
                   <strong>Price:</strong> ₹{order.totalAmount.toFixed(2)}
                 </div>
                 <div>
-                  <strong>Order Time:</strong> {formatDateFromEpoch(order.orderDate)}
+                  <strong>Order Time:</strong> {order.orderDate}
                 </div>
               </td>
               <td className="order-status">
@@ -125,7 +128,7 @@ const Order = () => {
                   <strong>Delivery Contact:</strong> {order.deliveryGuyNumber}
                 </div>
                 <div>
-                  <strong>Delivery Time:</strong> {formatDateFromEpoch(order.deliveryTime)}
+                  <strong>Delivery Time:</strong> {viewType === "previous" ? "N/A" : calculateDeliveryTime(order.orderDate)}
                 </div>
                 <div>
                   <strong>Quantity:</strong> {order.orderedItemList.length}
