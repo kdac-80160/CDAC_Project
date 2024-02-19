@@ -1,8 +1,11 @@
+import React from "react";
 import logo from "../Images/Spoon_Logo-removebg.png";
 import { Link } from "react-router-dom";
 import RoleNav from "./RoleNav";
+
 function Header() {
   const role = sessionStorage.getItem("role");
+
   return (
     <div>
       <nav className="navbar navbar-expand-lg custom-bg text-color">
@@ -38,35 +41,51 @@ function Header() {
                 id="navbarSupportedContent"
               >
                 <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                  <li className="nav-item">
-                    <Link
-                      to="/menu"
-                      className="nav-link active"
-                      aria-current="page"
-                    >
-                      <b className="text-color">Menu</b>
-                    </Link>
-                  </li>
-
-                  <li className="nav-item">
-                    <Link
-                      to="/aboutus"
-                      className="nav-link active"
-                      aria-current="page"
-                    >
-                      <b className="text-color">About Us</b>
-                    </Link>
-                  </li>
-
-                  <li className="nav-item">
-                    <Link
-                      to="/contactus"
-                      className="nav-link active"
-                      aria-current="page"
-                    >
-                      <b className="text-color">Contact Us</b>
-                    </Link>
-                  </li>
+                  {/* Conditionally render Menu, Contact Us, and About Us links only for ROLE_MANAGER */}
+                  {role !== "ROLE_DELIVERY" && (
+                    <>
+                      <li className="nav-item">
+                        <Link
+                          to="/menu"
+                          className="nav-link active"
+                          aria-current="page"
+                        >
+                          <b className="text-color">Menu</b>
+                        </Link>
+                      </li>
+                      <li className="nav-item">
+                        <Link
+                          to="/aboutus"
+                          className="nav-link active"
+                          aria-current="page"
+                        >
+                          <b className="text-color">About Us</b>
+                        </Link>
+                      </li>
+                      <li className="nav-item">
+                        <Link
+                          to="/contactus"
+                          className="nav-link active"
+                          aria-current="page"
+                        >
+                          <b className="text-color">Contact Us</b>
+                        </Link>
+                      </li>
+                    </>
+                  )}
+                  
+                  {/* Conditionally render Profile link for ROLE_DELIVERY */}
+                  {role === "ROLE_DELIVERY" && (
+                    <li className="nav-item">
+                      <Link
+                        to="/delivery-person/profile"
+                        className="nav-link active"
+                        aria-current="page"
+                      >
+                        <b className="text-color">Profile</b>
+                      </Link>
+                    </li>
+                  )}
                 </ul>
               </div>
             </>

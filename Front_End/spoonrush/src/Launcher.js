@@ -16,7 +16,11 @@ import CancelledOrders from './RestaurantComponent/CancelledOrders'
 import DeliveredOrders from './RestaurantComponent/DeliveredOrders'
 import AddAddress from "./AddressCart/AddAddress";
 import AddCartDetail from "./OrderComponent/AddCartDetail";
-
+import NewOrderPage from './DeliveryComponent/NewOrderPage';
+import OngoingOrderPage from './DeliveryComponent/OngoingOrderPage';
+import DeliveredOrderPage from './DeliveryComponent/DeliveredOrderPage'
+import Profile from './DeliveryComponent/Profile';
+import DeliveryHome from './DeliveryComponent/DeliveryHome';
 import AddFoodItem from './RestaurantComponent/AddFoodItem'
 
 function Launcher() {
@@ -31,6 +35,9 @@ function Launcher() {
                 <Route path="cancelled-order" element={<CancelledOrders/>}/>
                 <Route path="delivered-order" element={<DeliveredOrders/>}/>
                 <Route path="add-item" element={<AddFoodItem/>}/>
+                <Route path="delivery/new-order" element={<NewOrderPage/>}/>
+                <Route path="delivery/on-going-order" element={<OngoingOrderPage/>}/>
+                <Route path="delivery/delivered-order" element={<DeliveredOrderPage/>}/>
             </Route>
            <Route path="/user/login" element={<Signin/>}/>
            <Route path="/user/customer/register" element={<SignUp/>}/>
@@ -43,7 +50,8 @@ function Launcher() {
            <Route path="/user/customer/forgotPassword" element={<PasswordReset/>}/>
            <Route path="/user/customer/changePassword/:email" element={<ChangePassword/>}/>
            <Route path="/addaddress" element={<AddAddress/>}/>
-           
+           <Route path="/delivery-person/profile" element={<Profile />} />
+           <Route path="/delivery-person/deliveryhome" element={<DeliveryHome />} />
            {/* <Route path="/orders/pending" element={}/> */}
            {/* your resturant route */}
        </Routes> 

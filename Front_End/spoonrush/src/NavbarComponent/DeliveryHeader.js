@@ -33,7 +33,7 @@ const DeliveryHeader = () => {
           className="nav-link active"
           aria-current="page"
         >
-          <b className="text-color">My Delivery Orders</b>
+          <b className="text-color"></b>
         </Link>
       </li>
 
