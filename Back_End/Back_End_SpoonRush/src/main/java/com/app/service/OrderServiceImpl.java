@@ -166,7 +166,7 @@ public class OrderServiceImpl implements OrderService {
 			} else {
 				order.setOrderStatus(orderStatus.getOrderStatus());
 				order.setOrderLog(LocalDateTime.now());
-				DeliveryLogs log = deliveryDao.findByDelPartnerId(delPartnerId).orElse(null);
+				DeliveryLogs log = deliveryDao.findById(orderStatus.getId()).orElse(null);
 				if (log != null) {
 					log.setDelStatus(orderStatus.getOrderStatus());
 					log.setDeliveryLog(LocalDateTime.now());
