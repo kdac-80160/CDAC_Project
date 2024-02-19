@@ -18,11 +18,11 @@ const DeliveryHeader = () => {
       draggable: true,
       progress: undefined,
     });
-    sessionStorage.removeItem("active-delivery");
-    sessionStorage.removeItem("delivery-jwtToken");
+    sessionStorage.removeItem("role");
+    sessionStorage.removeItem("jwtToken");
     window.location.reload(true);
     setTimeout(() => {
-      navigate("/home");
+      navigate("/");
     }, 2000); // Redirect after 3 seconds
   };
   return (

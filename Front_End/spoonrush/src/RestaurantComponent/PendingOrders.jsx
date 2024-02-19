@@ -10,6 +10,8 @@ function PendingOrders() {
       
       const [pendingOrders, setPendingOrders] = useState([]);
 
+      const role = sessionStorage.getItem("role");
+
       const timeUtil = {
         day: 'numeric',
         month: 'numeric',
@@ -49,7 +51,7 @@ function PendingOrders() {
         }
       };
     
-    return ( <>
+    return ( role === 'ROLE_MANAGER'?<>
     <div className="col-10">
         <div>
           {" "}
@@ -118,7 +120,7 @@ function PendingOrders() {
           )}
         </div>
       </div>
-    </>);
+    </>:<></>);
 }
 
 export default PendingOrders;

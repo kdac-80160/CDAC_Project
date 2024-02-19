@@ -28,6 +28,7 @@ const OngoingOrderPage = ({ history }) => {
       await axios.patch(`https://localhost:8443/orders/delivery/change-status`, {
         id: orderId,
         orderStatus: "DELIVERED",
+        paymentStatus: 'COD_PAID'
       }, {
         headers: {
           Authorization: "Bearer " + customer_jwtToken,
@@ -50,6 +51,7 @@ const OngoingOrderPage = ({ history }) => {
             <th>Order ID</th>
             <th>First Name</th>
             <th>Last Name</th>
+            <th>Mobile No</th>
             <th>Address</th>
             <th>Total Amount</th>
             <th>Order Status</th>
@@ -64,7 +66,8 @@ const OngoingOrderPage = ({ history }) => {
               <td>{order.orderId}</td>
               <td>{order.firstName}</td>
               <td>{order.lastName}</td>
-              <td>{order.address.street}, {order.address.city}</td>
+              <td>{order.address.mobileNo}</td>
+              <td>{order.address.houseFlatNo},{order.address.streetName}, {order.address.locality.localityName}</td>
               <td>{order.totalAmount}</td>
               <td>{order.orderStatus}</td>
               <td>{order.payMode}</td>

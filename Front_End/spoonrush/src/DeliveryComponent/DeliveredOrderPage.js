@@ -45,7 +45,7 @@ const DeliveredPage = () => {
               <td>{order.orderId}</td>
               <td>{order.firstName}</td>
               <td>{order.lastName}</td>
-              <td>{order.address.street}, {order.address.city}</td>
+              <td>{order.address.houseFlatNo},{order.address.streetName}, {order.address.locality.localityName}</td>
               <td>{order.totalAmount}</td>
               <td>{order.orderStatus}</td>
               <td>{order.payMode}</td>

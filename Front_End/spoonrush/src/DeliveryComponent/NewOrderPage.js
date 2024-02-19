@@ -52,6 +52,7 @@ const OrderDashboard = () => {
             <th>Order ID</th>
             <th>First Name</th>
             <th>Last Name</th>
+            <th>Mobile No</th>
             <th>Address</th>
             <th>Total Amount</th>
             <th>Order Status</th>
@@ -66,7 +67,8 @@ const OrderDashboard = () => {
               <td>{order.orderId}</td>
               <td>{order.firstName}</td>
               <td>{order.lastName}</td>
-              <td>{order.address.street}, {order.address.city}</td>
+              <td>{order.address.mobileNo}</td>
+              <td>{order.address.houseFlatNo},{order.address.streetName}, {order.address.locality.localityName}</td>
               <td>{order.totalAmount}</td>
               <td>{order.orderStatus}</td>
               <td>{order.payMode}</td>

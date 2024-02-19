@@ -36,16 +36,6 @@ const AdminHeader = () => {
 
       <li className="nav-item">
         <Link
-          to="/restaurant/food/all"
-          className="nav-link active"
-          aria-current="page"
-        >
-          <b className="text-color">View My Foods</b>
-        </Link>
-      </li>
-
-      <li className="nav-item">
-        <Link
           to=""
           className="nav-link active"
           aria-current="page"
