@@ -72,6 +72,12 @@ function CancelledOrders() {
                   <p>
                     <strong>Order Status:</strong> {order.orderStatus}
                   </p>
+                  <p>
+                    <strong>Delivery Guy Name:</strong> {order.deliveryGuyName}
+                  </p>
+                  <p>
+                    <strong>Delivery Guy Number:</strong> {order.deliveryGuyNumber}
+                  </p>
                   {/* ... (rest of the properties) */}
                   <h4 className="mt-4 mb-4">Ordered Items</h4>
                   <ul className="list-group">
