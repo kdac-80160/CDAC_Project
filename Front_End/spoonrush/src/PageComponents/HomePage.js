@@ -44,7 +44,9 @@ function HomePage() {
   };
 
   if (role === "ROLE_MANAGER") {
-    return <RestaurantHome />;
+    return <><RestaurantHome />
+    <Footer />
+    </>;
   } else if (role === "ROLE_DELIVERY") {
     return <DeliveryHome />;
   } else {
