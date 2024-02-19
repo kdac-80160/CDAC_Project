@@ -79,7 +79,7 @@ public class OrderController {
 		return ResponseEntity.status(HttpStatus.OK).body(orderService.getCancelledOrdersForRestaurant());
 	}
 	
-	@PostMapping("/restaurant/change-status")
+	@PatchMapping("/restaurant/change-status")
 	public ResponseEntity<?> changeOrderStatusForRestaurant(@RequestBody @Valid ChangeOrderStatusDTO orderStatus)
 	{
 		return ResponseEntity.status(HttpStatus.OK).body(orderService.changeOrderStatusForRestaurant(orderStatus));
@@ -103,7 +103,7 @@ public class OrderController {
 		return ResponseEntity.status(HttpStatus.OK).body(orderService.getDeliveredOrders());
 	}
 	
-	@PostMapping("/delivery/change-status")
+	@PatchMapping("/delivery/change-status")
 	public ResponseEntity<?> changeOrderStatusForDelivery(@RequestBody ChangeOrderStatusDTO orderStatus)
 	{
 		return ResponseEntity.status(HttpStatus.OK).body(orderService.changeOrderStatusForDelivery(orderStatus));

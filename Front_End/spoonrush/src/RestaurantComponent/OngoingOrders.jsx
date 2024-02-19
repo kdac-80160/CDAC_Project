@@ -36,7 +36,7 @@ function OnGoingOrder() {
     try {
       console.log(`id : ${id}+ status : ${orderStatus}`);
       // Send a request to update the order status
-      const response = await axios.post(url + "/change-status", {
+      const response = await axios.patch(url + "/change-status", {
         id,
         orderStatus,
       });
