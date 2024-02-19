@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import '../Styles/viewOrder.css';
+import {toast} from 'react-toastify'
 
 const Order = () => {
   const customer_jwtToken = sessionStorage.getItem("jwtToken");
@@ -61,9 +62,9 @@ const Order = () => {
 
   const cancelOrder = async (orderId) => {
     try {
-      const response = await axios.post(
+      const response = await axios.patch(
         `https://localhost:8443/orders/customer/cancel/${orderId}`,
-        null,
+        {},
         {
           headers: {
             Accept: "application/json",
@@ -72,6 +73,19 @@ const Order = () => {
           },
         }
       );
+      if(response.data.status === 'SUCCESS')
+      {
+        toast.success(response.data.message, {
+          position: "top-center",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+        fetchOrders(viewType); // Fetch orders with the current viewType
+      }
       // Handle success or update state if needed
     } catch (error) {
       console.error("Error canceling order:", error);
@@ -132,15 +146,9 @@ const Order = () => {
                 </div>
                 <div>
                   <strong>Quantity:</strong> {order.orderedItemList.length}
-                </div>
-                {/* {viewType === "upcoming" && shouldRenderCancelButton(order.orderStatus) && (
-                  <div>
-                    <button onClick={() => cancelOrder(order.orderId)} className="btn btn-warning buttonMargin">Cancel</button>
-                  </div>
-                )} */}
+                </div> 
               </td>
             </tr>
-
           </tbody>))}
       </table>
       <div className="order-buttons">
