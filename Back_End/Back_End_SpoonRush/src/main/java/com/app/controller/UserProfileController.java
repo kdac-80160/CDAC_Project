@@ -33,4 +33,10 @@ public class UserProfileController {
 	{
 		return ResponseEntity.status(HttpStatus.OK).body(userService.updateCustomerProfile(profileDTO));
 	}
+	
+	@GetMapping("/restaurant/get-profile")
+	public ResponseEntity<?> getRestaurantProfile()
+	{
+		return ResponseEntity.status(HttpStatus.OK).body(userService.getCustomerProfile());
+	}
 }
