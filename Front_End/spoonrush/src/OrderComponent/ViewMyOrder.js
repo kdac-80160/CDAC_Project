@@ -132,7 +132,7 @@ const Order = () => {
                   <strong>Price:</strong> ₹{order.totalAmount.toFixed(2)}
                 </div>
                 <div>
-                  <strong>Order Time:</strong> {order.orderDate}
+                  <strong>Order Time:</strong> {new Date(order.orderDate).toLocaleString()}
                 </div>
               </td>
               <td className="order-status">
